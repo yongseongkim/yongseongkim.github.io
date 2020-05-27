@@ -7,7 +7,7 @@ layout: default
   {% if posts_count > 0 %}
     <div class="posts">
       {% for post in paginator.posts %}
-        <div class="post py3">
+        <div class="post py2">
           <p class="post-meta">
 	    {% if site.date_format %}
 	      {{ post.date | date: site.date_format }}

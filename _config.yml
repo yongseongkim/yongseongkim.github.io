@@ -1,14 +1,12 @@
 # Site settings
-title:       Pixyll
-email:       your_email@example.com
-author:      John Otander
-description: "A simple, beautiful theme for Jekyll that emphasizes content rather than aesthetic fluff."
-baseurl:     ""
-url:         "http://pixyll.com"
+title:       yongseongkim's blog
+email:       kys911015@gmail.com
+author:      Yongseong Kim
+description: "A software engineer developing mobile applications."
 date_format: "%b %-d, %Y"
 header_pages:
+ - archive.md
  - about.md
- - contact.html
 
 # Google services
 google_verification:
@@ -98,15 +96,6 @@ text:
     related_posts:  'Related Posts'
   index:
     coming_soon: 'Coming soon...'
-  contact:
-    email:    'Email Address'
-    content:  'What would you like to say?'
-    subject:  'New submission!'
-    submit:   'Say Hello'
-    ajax:
-      sending:  'sending..'
-      sent:     'Message sent!'
-      error:    'Error!'
   thanks: 'Thanks for contacting us. We will reply as soon as possible.'
   og_locale: 'en_US'
 
@@ -121,6 +110,8 @@ sass:
 plugins:
   - jekyll-paginate
   - jekyll-sitemap
+  - jekyll-seo-tag
+
 # https://github.com/jekyll/jekyll/issues/2938
 exclude:
   - Gemfile
