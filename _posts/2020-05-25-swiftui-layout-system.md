@@ -3,7 +3,8 @@ layout:     post
 title:      SwiftUI - Layout System
 date:       2020-05-25 12:00:00
 author:     yongseongkim
-categories: iOS SwiftUI
+categories: iOS
+tags:       [swiftui, swfit]
 ---
 
 최근에 SwiftUI 를 이용해 앱을 만들어 보면서 알게 된 사실들을 정리해보려 합니다. 이번 글은 View 사이즈를 계산하고 배치하는 방법과 과정에 대해 정리해봤습니다.

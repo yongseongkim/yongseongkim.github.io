@@ -24,6 +24,5 @@ tags: archive
         </p>
       </a>
     </li>
-
   {% endfor %}
 </ul>

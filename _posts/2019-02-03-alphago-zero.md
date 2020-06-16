@@ -3,7 +3,8 @@ layout:     post
 title:      AlphaGo Paper Review (2)
 date:       2019-02-13 12:00:00
 author:     yongseongkim
-categories: reinforcement-learning
+categories: Research
+tags:       [reinforcement learning, alphago]
 ---
 이세돌과의 경기로 AlphaGo Lee 에 대한 존재와 원리는 어느 정도 알고는 있었지만, 
 다음 버전 AlphaGo Zero 에 대해서는 상대적으로 관심이 적어 찾아볼 생각을 하지 않았었습니다.

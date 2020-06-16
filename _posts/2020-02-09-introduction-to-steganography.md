@@ -3,7 +3,8 @@ layout:     post
 title:      Introduction to Steganography
 date:       2020-02-09 12:00:00
 author:     yongseongkim
-categories: steganography
+categories: Research
+tags:       [steganography]
 ---
 
 2020 년 새해를 맞아 [사내 개발팀 워크샵](http://engineering.vcnc.co.kr/2019/01/vcnc-workshop-for-developers/) 라이트닝 톡 발표를 위해 준비한 소재 Steganography 정리해봤습니다.

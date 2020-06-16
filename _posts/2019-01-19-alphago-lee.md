@@ -3,7 +3,8 @@ layout:     post
 title:      AlphaGo Paper Review
 date:       2019-01-19 12:00:00
 author:     yongseongkim
-categories: reinforcement-learning
+categories: Research
+tags:       [reinforcement learning, alphago]
 ---
 
 최근 David Silver 교수의 [Reinforcement Learning Course](https://youtu.be/2pWv7GOvuf0) 를 보면서 강화학습에 대해 공부하다 연장선상으로 뒤늦게 AlphaGo 논문을 읽었습니다.
