@@ -8,7 +8,7 @@ tags: about
 ![Main Cover]({{site.url}}/images/main_cover.jpg){: width="80%" }
 <br>
 
-다양한 분야에 관심이 많고 얕게나마 공부하여 아는 척 하길 좋아합니다.
+여러 개발자들과 다양한 기술적인 대화 나누는 것을 좋아합니다. 사용자 편의를 고려한 기능 기획이나 UX 에 관심이 많습니다.
 
 ### Experience
 - VCNC (2015/10 ~ 2020/04)
@@ -30,12 +30,13 @@ tags: about
         - 사진 업로드 속도 개선을 위해 전세계 지역별 사진 업로드 서버 개발
     - 데이트 장소 추천 Between Date 서버 개발
         - Jersey 를 이용한 다양한 API 개발
-- [Goorm](https://www.goorm.io/)
+- [Goorm](https://www.goorm.io/) (2014/01 ~ 2014/11)
     - Web IDE 개발
         - HTML, Javascript + Jquery, CSS 를 이용한 UI 개발
         - Nodejs 를 이용한 백엔드 개발
 
 ### Contact
+- yongseongkimm@gmail.com
 - [Github](https://github.com/yongseongkim)
 - [Facebook](https://www.facebook.com/yongseongkimmm)
 - [LinkedIn](https://www.linkedin.com/in/%EC%9A%A9%EC%84%B1-%EA%B9%80-327854a8/)
