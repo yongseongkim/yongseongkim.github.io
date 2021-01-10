@@ -13,16 +13,16 @@ tags: about
 ### Experience
 - VCNC (2015/10 ~ 2020/04)
     - 커플 앱 [Between](https://between.us/) iOS 개발
-        - ObjectiveC, Swift 를 이용한 기능 개발
-        - 광고(배너, 카드) 로직 모듈화
-        - RxSwift, MVVM, VIPER 사용 경험
+        - ObjectiveC, Swift
+        - RxSwift, VIPER, MVVM, Redux like Architecture 사용경험
+        - 다양한 기능(홈, 메시지 검색 등)과 리팩토링(Network Module, 광고 로직 모듈화) 경험
     - 데이트 장소 추천 Between Date iOS 개발
-        - Swift 를 이용한 기능 개발
-        - 간단한 API 요청, MVVM 을 통한 다양한 레이아웃 개발
+        - Swift, MVVM, RxSwift 를 이용한 다양한 레이아웃 개발
     - 모빌리티 플랫폼 [TADA](https://tadatada.com/) iOS, Android 개발
-        - [RIBs](https://github.com/uber/RIBs) 아키텍처 기반 기능 개발
-        - [Uber Map Interface 를 이용한 지도 관리 모듈화](https://drive.google.com/file/d/1SzKHn0qTMM27MpTVlzfx9h_c6Dd8mMKH/view)
+        - [RIBs](https://github.com/uber/RIBs) 아키텍처를 기반으로 다양한 기능 개발
+        - [지도 Marker 그리기, Camera 이동을 편하게 할 Wrapper 구현](https://drive.google.com/file/d/1SzKHn0qTMM27MpTVlzfx9h_c6Dd8mMKH/view)
         - Firebase Storage 를 이용한 사진 업로드
+        - 탑승 플로우 관련 리팩토링
     - [마이크로소프트웨어 393호 기고](https://www.imaso.co.kr/archives/3408)
         - '비트윈, iOS 아키텍처 진화의 역사': MVC, MVVM, VIPER 등 아키텍처 관련 글 도움
 - VCNC (2014/12 ~ 2015/06)
