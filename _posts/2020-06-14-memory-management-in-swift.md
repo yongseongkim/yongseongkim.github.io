@@ -4,7 +4,7 @@ title:      Memory Management in Swift
 date:       2020-06-14 12:00:00
 author:     yongseongkim
 categories: iOS
-tags:       [swfit]
+tags:       [swift]
 ---
 
 영어 읽는 습관을 기르고 기술적인 내용을 많이 접하기 위해 [Medium](https://medium.com/) 글들을 많이 읽으려고 노력합니다.

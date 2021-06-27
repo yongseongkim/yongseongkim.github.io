@@ -11,6 +11,11 @@ tags: about
 여러 개발자들과 다양한 기술적인 대화 나누는 것을 좋아합니다. 사용자 편의를 고려한 기능 기획이나 UX 에 관심이 많습니다.
 
 ### Experience
+- VCNC (2021/02 ~ )
+  - 모빌리티 플랫폼 [TADA](https://tadatada.com/) iOS 개발
+- 두나무 (2020/09 ~ 2021/01)
+    - [비상장 증권플러스](https://www.ustockplus.com/) iOS 개발
+      - 종목 토론탭 개발
 - VCNC (2015/10 ~ 2020/04)
     - 커플 앱 [Between](https://between.us/) iOS 개발
         - ObjectiveC, Swift

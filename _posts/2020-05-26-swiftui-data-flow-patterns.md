@@ -4,7 +4,7 @@ title:      SwiftUI - Data Flow Patterns
 date:       2020-05-26 12:00:00
 author:     yongseongkim
 categories: iOS
-tags:       [swiftui, swfit]
+tags:       [swiftui, swift]
 ---
 
 SwiftUI 에서 View 는 SwiftUI 가 무엇을 어떻게 그릴 것인지 에 대해 명시한 가상의 객체입니다.
