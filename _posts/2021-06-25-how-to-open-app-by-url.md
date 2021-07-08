@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      How to open the App by URL
+title:      How To Open An App By URL
 date:       2021-06-25 12:00:00
 author:     yongseongkim
 categories: iOS
