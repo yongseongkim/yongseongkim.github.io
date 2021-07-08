@@ -7,10 +7,12 @@ pre code {
 pre,
 code {
   font-family: $monospace-font-family;
+  font-size: 85%;
+  padding: 0.2em 0.4em
 }
 
 code {
-  color: #7a7a7a;
+  color: $red;
 }
 
 pre {
