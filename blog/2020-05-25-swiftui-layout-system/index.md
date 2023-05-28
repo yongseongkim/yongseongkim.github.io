@@ -1,6 +1,5 @@
 ---
 title: SwiftUI - Layout System
-authors: [slorber, yangshun]
 tags: [swiftui, swift]
 ---
 
@@ -12,7 +11,7 @@ tags: [swiftui, swift]
 
 1. 먼저 부모 View 는 자식 View 에게 가능한 영역의 크기를 알려줍니다. 가장 최상위 View 에서는 safe area 를 제외한 스크린 크기가 되겠네요.
    ![SwiftUI Layout System](./screen-without-safearea.png)
-   <small>이미지 출처: [hareenlaks's blog](https://kean.github.io/post/swiftui-layout-system)</small>
+   출처: [hareenlaks's blog](https://kean.github.io/post/swiftui-layout-system)
 
 2. 부모 View 가 알려준 영역을 기반으로 자식 View 는 자신의 크기를 계산합니다.
 3. 자식 View 는 자신의 크기를 부모 View 에게 알려주고 부모는 자식 View 를 자신의 영역에서 배치합니다.
@@ -57,7 +56,7 @@ HSack, VStack 내에 View 들은 크기를 계산하는 과정에서 서로 영�
    <!-- {% gist 02f863d0aa0aa52dcda49a9bf6b8ed7d text-image-text-in-stack.swift %} -->
 
 ![Compare views in stack](./compare-text-image-text-in-stack.png)
-<small>컨텐츠 양은 다르지만 정해진 영역에서 같은 크기를 같는 Text</small>
+컨텐츠 양은 다르지만 정해진 영역에서 같은 크기를 같는 Text
 
 Stack 내에 Fill 타입의 View 가 존재하면 Stack 의 크기도 Parent 를 가득 채우게 크기가 결정됩니다.
 

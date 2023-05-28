@@ -1,6 +1,5 @@
 ---
 title: SwiftUI - Data Flow Patterns
-authors: [slorber, yangshun]
 tags: [swiftui, swift]
 ---
 

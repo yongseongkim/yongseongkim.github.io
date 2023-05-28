@@ -1,6 +1,5 @@
 ---
 title: UILabel Alignment
-authors: [slorber, yangshun]
 tags: [label, alignment]
 ---
 
@@ -16,13 +15,13 @@ tags: [label, alignment]
 
 ![typography-terminology](./typography-terminology.png)
 
-<small>출처: [Apple Font Handling](https://developer.apple.com/library/archive/documentation/TextFonts/Conceptual/CocoaTextArchitecture/FontHandling/FontHandling.html)</small>
+출처: [Apple Font Handling](https://developer.apple.com/library/archive/documentation/TextFonts/Conceptual/CocoaTextArchitecture/FontHandling/FontHandling.html)
 
 많은 용어들이 있음에도 이 글에서 필요한 `Baseline`, `Ascent(Ascender)`, `Descent(Descender)`, `CapHeight`, `x-Height`, `LineHeight`, `Leading(Line gap)` 정도만 알면 됩니다.
 
 ![typography-terminology-list](./typography-terminology-list.png)
 
-<small>출처: [iOS Tracking Typography](https://www.rightpoint.com/rplabs/ios-tracking-typography)</small>
+출처: [iOS Tracking Typography](https://www.rightpoint.com/rplabs/ios-tracking-typography)
 
 먼저 `Baseline` 은 문자가 서있는 보이지 않는 선입니다. 이 선을 기준으로 문자들을 만듭니다.
 `Ascent(Ascender)` 는 Baseline 으로부터 문자의 가장 윗 부분까지 거리를 나타냅니다.
@@ -49,7 +48,7 @@ iOS 에서는 위와 같이 코드를 작성하여 원하는 lineHeight 를 설�
 
 ![loren-ipsum-custom-line-height](./loren-ipsum-custom-line-height.png)
 
-<small>출처: [UILabel line height in Swift](https://www.belkadigital.com/articles/uilabel-line-height-in-swift)</small>
+출처: [UILabel line height in Swift](https://www.belkadigital.com/articles/uilabel-line-height-in-swift)
 
 근데 위 이미지와 같이 문자들이 중앙정렬 되는 게 아니라 아랫부분에 붙어 있어서 예상치 못하게 상단 부분이 비어 보일 수 있습니다.
 여러 줄의 UILabel 을 화면 중앙에 정렬해도 상단이 비어보이면서 중앙 정렬이 아닌 것처럼 보일 수 있습니다.
@@ -60,7 +59,7 @@ iOS 에서는 위와 같이 코드를 작성하여 원하는 lineHeight 를 설�
 
 ![hello-world-alignment](./hello-world-alignment.png)
 
-<small>출처: [UILabel line height in Swift](https://www.belkadigital.com/articles/uilabel-line-height-in-swift)</small>
+출처: [UILabel line height in Swift](https://www.belkadigital.com/articles/uilabel-line-height-in-swift)
 
 왼쪽 이미지가 아닌 오른쪽 이미지처럼 중앙 정렬을 원하는 경우는 어떻게 해야 할까요?
 
@@ -70,7 +69,7 @@ iOS 에서는 위와 같이 코드를 작성하여 원하는 lineHeight 를 설�
 
 ![shy-difference-between-lineheight-fontsize](./shy-difference-between-lineheight-fontsize.png)
 
-<small>출처: [UILabel line height in Swift](https://www.belkadigital.com/articles/uilabel-line-height-in-swift)</small>
+출처: [UILabel line height in Swift](https://www.belkadigital.com/articles/uilabel-line-height-in-swift)
 
 baseline offset 은 Baseline 으로 부터 얼마나 떨어져 있는 지를 나타냅니다. 설정한 lineHeight 에서 Font 크기를 빼고 나누기 2 한 값을 offset 으로 설정하면 될 것 같습니다.
 
@@ -80,7 +79,7 @@ baseline offset 은 Baseline 으로 부터 얼마나 떨어져 있는 지를 나
 
 ![loren-ipsum-custom-line-height-with-baseline-offset](./loren-ipsum-custom-line-height-with-baseline-offset.png)
 
-<small>출처: [UILabel line height in Swift](https://www.belkadigital.com/articles/uilabel-line-height-in-swift)</small>
+출처: [UILabel line height in Swift](https://www.belkadigital.com/articles/uilabel-line-height-in-swift)
 
 - 첫번째 이미지는 baselineOffset 을 적용하기 전,
 - 두번째 이미지는 baselineOffset 을 `(lineHeight - font.lineHeight) / 4` 으로 적용한 상황
@@ -97,7 +96,7 @@ Font 크기가 다른 두 UILabel 상단을 맞췄음에도 불구하고 왼쪽 
 
 ![twenty-five-minute-alignment-with-redline](./twenty-five-minute-alignment-with-redline.png)
 
-<small>출처: [iOS Tracking Typography](https://www.rightpoint.com/rplabs/ios-tracking-typography)</small>
+출처: [iOS Tracking Typography](https://www.rightpoint.com/rplabs/ios-tracking-typography)
 
 왼쪽 이미지 처럼 UILabel 의 상단을 맞추는 것이 아닌 CapHeight 선을 맞추면 오른쪽 그림처럼 깔끔하게 해결할 수 있습니다.
 
@@ -126,7 +125,7 @@ iOS 에서는 실제로 Text 를 그릴 때 이러한 Fractional part(pxiel 영�
 
 ![label-pixel-boundary-example](./label-pixel-boundary-example.png)
 
-<small>출처: [Cap Height Alignment for iOS Auto Layout](https://www.atimi.com/cap-height-alignment-for-ios-auto-layout/)</small>
+출처: [Cap Height Alignment for iOS Auto Layout](https://www.atimi.com/cap-height-alignment-for-ios-auto-layout/)
 
 글자들은 Baseline 위에서 그려지는데, 이 Baseline 은 pixel 영역이라서 Fractional part 를 pixel 영역에 맞게 처리해야 합니다.
 근데 여기서 round 를 써서 실제 글자가 차지하는 pixel 보다 작아지면 잘릴 수도 있으니 ceil 을 이용하여 한 픽셀 정도 넉넉하게 잡아줍니다.
@@ -141,7 +140,7 @@ iOS 에서는 실제로 Text 를 그릴 때 이러한 Fractional part(pxiel 영�
 
 ![base-label-baselineanchor](./base-label-baselineanchor.png)
 
-<small>출처: [FirstBaseLineNachor & LastBaseLineAnchor](https://milyo-codingstories.tistory.com/51)</small>
+출처: [FirstBaseLineNachor & LastBaseLineAnchor](https://milyo-codingstories.tistory.com/51)
 
 "new" Label 상단을 "Base Label" 의 firstBaselineAnchor 에 걸게 되면 왼쪽 이미지와 같이 나타납니다.
 오른쪽 이미지는 lastBaselineAnchor 를 이용했습니다.

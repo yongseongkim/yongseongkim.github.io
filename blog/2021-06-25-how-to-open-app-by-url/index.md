@@ -1,6 +1,5 @@
 ---
 title: How To Open An App By URL
-authors: [slorber, yangshun]
 tags: [universallink]
 ---
 
@@ -50,7 +49,7 @@ Universal Link 는 URL 진입 시 URL 에 맞는 앱이 설치되어 있으면 �
 ## Behind the scenes
 
 ![How to get AASA files from server](./how-to-get-aasa-from-server.png)
-<small>출처: [WWDC 2020 What's new in Universal Link](https://developer.apple.com/videos/play/wwdc2020/10098/)</small>
+출처: [WWDC 2020 What's new in Universal Link](https://developer.apple.com/videos/play/wwdc2020/10098/)
 Universal Link 를 활성화 시키기 위해서는 앱에 어떤 도메인을 쓸 것인지 명시해야 합니다.
 시스템은 앱을 다운 받아 설치할 때, 등록된 도메인의 AASA 파일을 파싱하여 Universal Link 를 활성화 시킵니다.
 

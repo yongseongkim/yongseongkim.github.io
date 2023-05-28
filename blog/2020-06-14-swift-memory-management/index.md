@@ -1,6 +1,5 @@
 ---
 title: Memory Management in Swift
-authors: [slorber, yangshun]
 tags: [swift]
 ---
 
@@ -28,7 +27,7 @@ JVM 에서 작동하는 Garbage Collection 은 프로그램 실행 중에 더 �
 <!-- {% gist 97ea3d18ca1aaa7dba22b145788f5088 how_reference_counting_works_class.swift %} -->
 ![How Reference Counting Works](./how_reference_counting_works.png)
 
-<small>출처: [WWDC 2016 Understanding Swift Performance](https://developer.apple.com/videos/play/wwdc2016/416/)</small>
+출처: [WWDC 2016 Understanding Swift Performance](https://developer.apple.com/videos/play/wwdc2016/416/)
 
 위 그림에서와 같이 point2 변수가 같은 객체를 가리키면서 reference count 는 2 가 됩니다.
 모든 동작이 끝나고 Reference 가 없어지면서 Point 객체는 메모리에서 해제됩니다.
@@ -73,20 +72,20 @@ struct 는 Stack 에 데이터가 저장되며 다른 변수에 할당하게 되
 값에 의해 객체를 구분하기 때문에 Equatable 을 구현해야 합니다.
 ![Struct vs. Class Array of Struct](./struct_vs_class_struct_array.png)
 
-<small>출처: [WWDC 2015 Optimizing Swift Performance](https://developer.apple.com/videos/play/wwdc2015/409/)</small>
+출처: [WWDC 2015 Optimizing Swift Performance](https://developer.apple.com/videos/play/wwdc2015/409/)
 class 객체는 heap 에 데이터를 저장합니다. 다른 변수에 할당하면 reference 를 복사하기 떄문에 같은 객체에 대한 접근이 여러 변수를 통해서 가능합니다.
 class 는 객체의 identitiy 가 중요하거나 inheritance, indirect storage 등의 목적으로 쓰입니다.
 
 ![Struct vs. Class Array of Struct](./struct_vs_class_class_array.png)
 
-<small>출처: [WWDC 2015 Optimizing Swift Performance](https://developer.apple.com/videos/play/wwdc2015/409/)</small>
+출처: [WWDC 2015 Optimizing Swift Performance](https://developer.apple.com/videos/play/wwdc2015/409/)
 
 프로토콜을 구현한 struct 는 일반적인 struct 와는 조금 다른 형태를 가집니다.
 위 코드에서 `drawables` 변수는 프로토콜 배열입니다. 하지만 Point 와 Line 객체는 다른 크기를 가집니다.
 같은 프로토콜을 구현했지만 다른 크기를 가지는 경우를 생각해서 Swift 에서는 Existential Container 이용합니다.
 ![Struct: Protocol Implementation](./protocol_implementation_struct.png)
 
-<small>출처: [WWDC 2015 Optimizing Swift Performance](https://developer.apple.com/videos/play/wwdc2015/409/)</small>
+출처: [WWDC 2015 Optimizing Swift Performance](https://developer.apple.com/videos/play/wwdc2015/409/)
 
 위 그림에서 흰색 사각형과 같이 Existential Container 는 3 words 크기의 데이터를 가질 수 있는데 그보다 크면 Heap 에 메모리를 할당하고 Reference 를 가집니다.
 그림에서 왼쪽 구조가 크기가 작은 struct, 오른쪽 구조가 크기가 큰 struct 입니다.

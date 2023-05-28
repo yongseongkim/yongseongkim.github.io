@@ -1,6 +1,5 @@
 ---
 title: AlphaGo Paper Review (2)
-authors: [slorber, yangshun]
 tags: [reinforcement learning, alphago]
 ---
 
@@ -54,7 +53,7 @@ Residual network 는 Image Recognition 대회에서 좋은 성적을 거둔 Netw
 
 ![MCTS in training](./mcts-training-data.png)
 
-<small>이미지 출처: Mastering the game of Go without Human Knowledge</small>
+출처: Mastering the game of Go without Human Knowledge
 
 위 그림처럼 매 상태 $$s_t$$마다 가장 최근에 학습시킨 Neural Network 를 이용해서 MCTS 계산을 합니다.
 학습되기 전 초기 Neural Network 는 랜덤 위치에 둘 것입니다.
@@ -66,7 +65,7 @@ MCTS 계산을 하면 다음 수의 위치가 확률 분포가 나오고 이게 
 
 ![MCTS Leaning](./mcts-learning.png)
 
-<small>이미지 출처: Mastering the game of Go without Human Knowledge</small>
+출처: Mastering the game of Go without Human Knowledge
 
 이 그림은 위에서 얻은 데이터 집합으로 학습하는 그림입니다.
 함수 $$f(\theta)$$ 의 입력으로 상태 $$s_1$$ 을 넣으면 결과로 $$p_1$$ 과 $$v_1$$ 이 나옵니다.
@@ -82,7 +81,7 @@ $$l = (z-v)^2 - \pi^T log(p) + c ||\theta||^2$$
 
 ![MCTS Leaning](./mcts-step.png)
 
-<small>이미지 출처: Mastering the game of Go without Human Knowledge</small>
+출처: Mastering the game of Go without Human Knowledge
 
 ### Select
 
@@ -108,7 +107,7 @@ AlphaGo Zero 는 전문가의 수를 배우지 않고 스스로 랜덤한 수부
 
 ![MCTS Leaning](./elo-rating.png)
 
-<small>이미지 출처: Mastering the game of Go without Human Knowledge</small>
+출처: Mastering the game of Go without Human Knowledge
 
 그것도 단 3일 만에 AlphaGo Lee 를 뛰어넘습니다. 참고로 [Elo Rating](https://ko.wikipedia.org/wiki/%EC%97%98%EB%A1%9C_%ED%8F%89%EC%A0%90_%EC%8B%9C%EC%8A%A4%ED%85%9C)
 은 평점 산출법의 하나입니다.
@@ -118,7 +117,7 @@ AlphaGo Zero 는 매번 1600 의 MCTS 과정을 거쳤다고 합니다. 또한 4
 
 ![MCTS Leaning](./prediction-professional-move.png)
 
-<small>이미지 출처: Mastering the game of Go without Human Knowledge</small>
+출처: Mastering the game of Go without Human Knowledge
 
 또 재밌는 점은 전문가 수 예측 확률이 기존에 전문가 수를 배운 Network 보다 더 낮습니다.
 실제로 바둑 기사들이 두는 수가 최적이 아닐 수도 있겠네요.

@@ -1,6 +1,5 @@
 ---
 title: Introduction to Steganography
-authors: [slorber, yangshun]
 tags: [steganography]
 ---
 
@@ -24,7 +23,7 @@ Steganography 의 역사는 기원전 440년부터 시작합니다. 고대 그�
 
 ![Tattoo on Head hidden by hair](http://4.bp.blogspot.com/-I-EUME4witY/TZbFjKb22SI/AAAAAAAAAGQ/0dJPgTDOo6w/s200/hh.jpg)
 
-<small>이미지 출처: [hareenlaks's blog](https://hareenlaks.blogspot.com/2011/04/history-of-steganography.html)</small>
+출처: [hareenlaks's blog](https://hareenlaks.blogspot.com/2011/04/history-of-steganography.html)
 
 세계 2차 대전에는 프랑스 저항군이 보이지 않는 잉크를 이용하여 메시지를 전달했습니다. 또한 간첩들은 microdots 을 이용해서 비밀 메시지를 담은 이미지를 생성하고 사용했습니다.
 microdots 을 종이에 적고 collodion 용액으로 덮었습니다. 메시지는 빛을 비추면 보였습니다.
@@ -32,7 +31,7 @@ microdots 을 종이에 적고 collodion 용액으로 덮었습니다. 메시지
 
 ![Enlarge view of a microdot](http://1.bp.blogspot.com/-sWs2AStWpSI/TZbHnlrF3WI/AAAAAAAAAGY/C5RmqQOS7WM/s1600/md.jpg)
 
-<small>이미지 출처: [hareenlaks's blog](https://hareenlaks.blogspot.com/2011/04/history-of-steganography.html)</small>
+출처: [hareenlaks's blog](https://hareenlaks.blogspot.com/2011/04/history-of-steganography.html)
 
 또한 911 테러에도 오사마 빈라덴이 테러에 스테가노그래피를 이용했다고 합니다. [포르노 사진, 스포츠 채팅 창에서의 글들을 이용하여 미국 테러에 대한 지령을 전달했다고 합니다.](https://usatoday30.usatoday.com/life/cyber/tech/2001-02-05-binladen.htm)
 
@@ -134,10 +133,10 @@ d = b + c
 
 해당 이미지를 읽어 RGB 에 해당하는 LSB 와 AND 연산을 하는 코드입니다.
 
-<small>BLUE 0 번 비트와 AND 연산한 결과</small>
+BLUE 0 번 비트와 AND 연산한 결과
 ![Stegenography Image Technique Example - LSB - 0](./img-technique-wechall-lsb-idx0.png)
 
-<small>BLUE 1 번 비트와 AND 연산한 결과</small>
+BLUE 1 번 비트와 AND 연산한 결과
 ![Stegenography Image Technique Example - LSB - 0](./img-technique-wechall-lsb-idx1.png)
 
 위와 같이 메세지가 숨겨져 있는 것을 볼 수 있습니다.
@@ -145,7 +144,7 @@ d = b + c
 
 ![Stegenography Image Technique Example - LSB - Bit Used](./img-technique-lsb-bit-used.jpg)
 
-<small>이미지 출처: [Steganography And Digital WaterMarking](https://www.cs.bham.ac.uk/~mdr/teaching/modules03/security/students/SS5/Steganography.htm)</small>
+출처: [Steganography And Digital WaterMarking](https://www.cs.bham.ac.uk/~mdr/teaching/modules03/security/students/SS5/Steganography.htm)
 
 ### Deep Learning
 
@@ -153,14 +152,14 @@ d = b + c
 
 ![Stegenography Image Technique Example - Deep Learning Network](./img-technique-deep-learning-network.png)
 
-<small>이미지 출처: [Hiding Images using AI — Deep Steganography](https://buzzrobot.com/hiding-images-using-ai-deep-steganography-b7726bd58b06)</small>
+출처: [Hiding Images using AI — Deep Steganography](https://buzzrobot.com/hiding-images-using-ai-deep-steganography-b7726bd58b06)
 
 숨기려는 이미지 (Secret Image) 와 포장하려는 이미지 (Cover Image) 를 Input 으로 Covered Output 을 만듭니다. 그리고 이를 해석할 Reveal Network 를 통해 다시 Secret 이미지를 추출합니다.
 여기서에 오차는 (Input 으로 사용한 Cover 이미지 - 비밀이미지를 담은 결과물) + (Input 으로 사용한 Secret 이미지 - Reveal Network 으로 뽑아낸 Secret 이미지) 로 합니다.
 
 ![Stegenography Image Technique Example - Deep Learning](./img-technique-deep-learning.png)
 
-<small>이미지 출처: [Hiding Images using AI — Deep Steganography](https://buzzrobot.com/hiding-images-using-ai-deep-steganography-b7726bd58b06)</small>
+출처: [Hiding Images using AI — Deep Steganography](https://buzzrobot.com/hiding-images-using-ai-deep-steganography-b7726bd58b06)
 
 위 사진은 이전에 설명한 네트워크의 결과물입니다. 더 자세한 내용은 해당 블로그 [Hiding Images using AI](https://buzzrobot.com/hiding-images-using-ai-deep-steganography-b7726bd58b06) 참고하시면 됩니다.
 
