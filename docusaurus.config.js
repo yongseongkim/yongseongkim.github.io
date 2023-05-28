@@ -79,13 +79,8 @@ const config = {
           src: "img/logo.svg",
         },
         items: [
-          {
-            type: "docSidebar",
-            sidebarId: "tutorialSidebar",
-            position: "left",
-            label: "Tutorial",
-          },
           { to: "/blog", label: "Blog", position: "left" },
+          { to: "/blog/tags", label: "Tags", position: "left" },
         ],
       },
       footer: {
