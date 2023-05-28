@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog_yongseongkim=self.webpackChunkblog_yongseongkim||[]).push([[607],{1067:e=>{e.exports=JSON.parse('{"label":"alignment","permalink":"/blog/tags/alignment","allTagsPath":"/blog/tags","count":1}')}}]);

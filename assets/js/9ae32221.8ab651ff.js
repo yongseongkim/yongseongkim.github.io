@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog_yongseongkim=self.webpackChunkblog_yongseongkim||[]).push([[6522],{7631:s=>{s.exports=JSON.parse('{"label":"swift","permalink":"/blog/tags/swift","allTagsPath":"/blog/tags","count":3}')}}]);
