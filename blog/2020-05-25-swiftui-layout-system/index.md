@@ -11,7 +11,7 @@ tags: [swiftui, swift]
 # Layout Process
 
 1. 먼저 부모 View 는 자식 View 에게 가능한 영역의 크기를 알려줍니다. 가장 최상위 View 에서는 safe area 를 제외한 스크린 크기가 되겠네요.
-   ![SwiftUI Layout System](./screen-without-safearea.png){: width="30%" }
+   ![SwiftUI Layout System](./screen-without-safearea.png)
    <small>이미지 출처: [hareenlaks's blog](https://kean.github.io/post/swiftui-layout-system)</small>
 
 2. 부모 View 가 알려준 영역을 기반으로 자식 View 는 자신의 크기를 계산합니다.
@@ -28,16 +28,19 @@ View 가 크기를 계산하는 방식은 두 가지로 나눌 수 있습니다.
 컨텐츠를 기반으로 계산하는 Fit 방식으로는 Text, Stack 등이 있고 가능한 영역을 채우는 Fill 방식으로는 GeometryReader, Spacer 등이 있습니다.
 
 <!-- {% gist 02f863d0aa0aa52dcda49a9bf6b8ed7d fit-fill-in-root.swift %} -->
-![Text in Root](./text-in-root.png){: width="40%" }
-![Color in Root](./color-in-root.png){: width="40%" }
+
+![Text in Root](./text-in-root.png)
+![Color in Root](./color-in-root.png)
 Text 는 Parent 에게 전달받은 영역이 아무리 커도 컨텐츠 만큼 크기를 차지하는 반면에 Color 는 부모가 제시한 크기만큼 크기를 차지합니다.
 
 Image 는 `resizable` modifier 에 따라 동작이 다릅니다. `resizable` 을 사용하지 않은 Image 는 컨텐츠 크기 만큼 영역을 차지합니다.
 큰 이미지의 경우 스크린 영역을 벗어날 수 있습니다.
 하지만 `resizable` modifier 가 붙으면 가능한 영역 안에서 컨텐츠를 보여 줍니다.
+
 <!-- {% gist 02f863d0aa0aa52dcda49a9bf6b8ed7d compare-with-or-without-resizable.swift %} -->
-![Preview of Image without resizable](./image-preview-without-resizable.png){: width="40%" }
-![Preview of Image with resizable](./image-preview-with-resizable.png){: width="40%" }
+
+![Preview of Image without resizable](./image-preview-without-resizable.png)
+![Preview of Image with resizable](./image-preview-with-resizable.png)
 
 ## Layout Process in Stack
 
@@ -53,26 +56,32 @@ HSack, VStack 내에 View 들은 크기를 계산하는 과정에서 서로 영�
 3. 모든 자식 View 의 크기가 정해지면 배치 옵션에 따라 배치합니다.
    <!-- {% gist 02f863d0aa0aa52dcda49a9bf6b8ed7d text-image-text-in-stack.swift %} -->
 
-![Compare views in stack](./compare-text-image-text-in-stack.png){: width="80%" }
+![Compare views in stack](./compare-text-image-text-in-stack.png)
 <small>컨텐츠 양은 다르지만 정해진 영역에서 같은 크기를 같는 Text</small>
 
 Stack 내에 Fill 타입의 View 가 존재하면 Stack 의 크기도 Parent 를 가득 채우게 크기가 결정됩니다.
+
 <!-- {% gist 02f863d0aa0aa52dcda49a9bf6b8ed7d fit-and-fill-views-in-stack.swift %} -->
-![Fit and Fill views in stack](./fit-fill-in-stack.png){: width="80%" }
+
+![Fit and Fill views in stack](./fit-fill-in-stack.png)
 
 # Alignments
 
 화면에 배치할 View 들의 크기가 어떻게 정해지는지 알았다면 어떻게 배치하는지 알아야 합니다.
 가장 기본적인 배치로는 Stack Initializer 에서 alignment 파라미터
 혹은 `frame(width: CGFloat, height: CGFloat, alignment: Alignment)` 에서 어떻게 배치할지를 설정할 수 있습니다.
+
 <!-- {% gist 02f863d0aa0aa52dcda49a9bf6b8ed7d alignment-with-stack-initializer.swift %} -->
-![Alignment last text baseline](./alignment-last-text-baseline.png){: width="80%" }
+
+![Alignment last text baseline](./alignment-last-text-baseline.png)
 
 그 외에 custom 하게 배치하고 싶을 때 쓰는 modifier 가 있습니다.
 `alignmentGuide()` 는 바꾸고 싶은 alignment guide 와 새로운 alignment 를 정하는 closure 를 필요로 합니다.
 closure 내에서 view 의 width, height, edge 정보를 가진 `ViewDimension` 객체에 접근하여 새롭게 배치할 수 있습니다.
+
 <!-- {% gist 02f863d0aa0aa52dcda49a9bf6b8ed7d custom-alignment-guide.swift %} -->
-![Example of custom alignmentGuide](./custom-alignment-guide.png){: width="80%" }
+
+![Example of custom alignmentGuide](./custom-alignment-guide.png)
 
 # Conclusion
 

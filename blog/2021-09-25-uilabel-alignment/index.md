@@ -14,13 +14,13 @@ tags: [label, alignment]
 
 정렬이 왜 이상한지를 설명하기에 앞서 먼저 용어를 알고 갈 필요가 있습니다. 아래 보이는 이미지는 애플 문서 Font Handling 에 있는 이미지로 글자를 그릴 때 필요한 선들을 나타냅니다.
 
-![typography-terminology](./typography-terminology.png){: width="80%" }
+![typography-terminology](./typography-terminology.png)
 
 <small>출처: [Apple Font Handling](https://developer.apple.com/library/archive/documentation/TextFonts/Conceptual/CocoaTextArchitecture/FontHandling/FontHandling.html)</small>
 
 많은 용어들이 있음에도 이 글에서 필요한 `Baseline`, `Ascent(Ascender)`, `Descent(Descender)`, `CapHeight`, `x-Height`, `LineHeight`, `Leading(Line gap)` 정도만 알면 됩니다.
 
-![typography-terminology-list](./typography-terminology-list.png){: width="50%" }
+![typography-terminology-list](./typography-terminology-list.png)
 
 <small>출처: [iOS Tracking Typography](https://www.rightpoint.com/rplabs/ios-tracking-typography)</small>
 
@@ -47,7 +47,7 @@ tags: [label, alignment]
 
 iOS 에서는 위와 같이 코드를 작성하여 원하는 lineHeight 를 설정할 수 있습니다.
 
-![loren-ipsum-custom-line-height](./loren-ipsum-custom-line-height.png){: width="100%" }
+![loren-ipsum-custom-line-height](./loren-ipsum-custom-line-height.png)
 
 <small>출처: [UILabel line height in Swift](https://www.belkadigital.com/articles/uilabel-line-height-in-swift)</small>
 
@@ -58,7 +58,7 @@ iOS 에서는 위와 같이 코드를 작성하여 원하는 lineHeight 를 설�
 
 또 다른 상황으로 NSAttributedText 에 다른 Font 크기를 지정하면 baseline 을 기준으로 정렬됩니다.
 
-![hello-world-alignment](./hello-world-alignment.png){: width="100%" }
+![hello-world-alignment](./hello-world-alignment.png)
 
 <small>출처: [UILabel line height in Swift](https://www.belkadigital.com/articles/uilabel-line-height-in-swift)</small>
 
@@ -68,7 +68,7 @@ iOS 에서는 위와 같이 코드를 작성하여 원하는 lineHeight 를 설�
 
 위와 같은 문제들을 NSAttributedString 의 baselineOffset 설정으로 해결할 수 있습니다. 문자들을 Baseline 으로부터 간격을 주어서 중앙에 정렬하는 것처럼 보이게 합니다.
 
-![shy-difference-between-lineheight-fontsize](./shy-difference-between-lineheight-fontsize.png){: width="60%" }
+![shy-difference-between-lineheight-fontsize](./shy-difference-between-lineheight-fontsize.png)
 
 <small>출처: [UILabel line height in Swift](https://www.belkadigital.com/articles/uilabel-line-height-in-swift)</small>
 
@@ -78,7 +78,7 @@ baseline offset 은 Baseline 으로 부터 얼마나 떨어져 있는 지를 나
 
 하지만 실제로는 나누기 2 가 아닌 나누기 4 를 해야 중앙 정렬이 됩니다. (내부적으로 scale 계산을 하는 건지, 여러 블로그글을 참고했으나 아직까지 정확한 사유를 파악하지 못했습니다.)
 
-![loren-ipsum-custom-line-height-with-baseline-offset](./loren-ipsum-custom-line-height-with-baseline-offset.png){: width="100%" }
+![loren-ipsum-custom-line-height-with-baseline-offset](./loren-ipsum-custom-line-height-with-baseline-offset.png)
 
 <small>출처: [UILabel line height in Swift](https://www.belkadigital.com/articles/uilabel-line-height-in-swift)</small>
 
@@ -90,12 +90,12 @@ baseline offset 은 Baseline 으로 부터 얼마나 떨어져 있는 지를 나
 
 다음은 Font 크기가 다른 두 UILabel 을 상단으로 맞추는 경우 입니다.
 
-![twenty-five-minute-top-alignment](./twenty-five-minute-top-alignment.png){: width="80%" }
+![twenty-five-minute-top-alignment](./twenty-five-minute-top-alignment.png)
 
 Font 크기가 다른 두 UILabel 상단을 맞췄음에도 불구하고 왼쪽 이미지처럼 실제로 보이는 글자 정렬은 이상해보입니다.
 오른쪽 처럼 이쁘게 정렬되게 하려면 어떻게 해야 할까요?
 
-![twenty-five-minute-alignment-with-redline](./twenty-five-minute-alignment-with-redline.png){: width="80%" }
+![twenty-five-minute-alignment-with-redline](./twenty-five-minute-alignment-with-redline.png)
 
 <small>출처: [iOS Tracking Typography](https://www.rightpoint.com/rplabs/ios-tracking-typography)</small>
 
@@ -110,7 +110,7 @@ Font 크기가 다른 두 UILabel 상단을 맞췄음에도 불구하고 왼쪽 
 다른 방법으로는 UIView 의 `alignmentRectInsets` 값을 이용하는 방법입니다.
 값을 override 하면서 View 내부에서 top 에 대한 정의를 바꿉니다.
 
-![alignment-rect-insets-example](./alignment-rect-insets-example.png){: width="80%" }
+![alignment-rect-insets-example](./alignment-rect-insets-example.png)
 
 위 이미지는 `alignmentRectInsets` 를 덮어쓰는 `CapAlignmentLabel` 를 정의하여 비교해본 결과입니다.
 왼쪽 이미지는 스토리보드에서의 프리뷰이며 오른쪽 이미지는 실제로 디바이스에서 작동한 결과입니다.
@@ -124,7 +124,7 @@ Font 크기가 다른 두 UILabel 상단을 맞췄음에도 불구하고 왼쪽 
 Helvetica Font 24pt 는 lineHeight 27.6, ascender 22.08, descender -5.52, capHeight 17.27 값을 가집니다.
 iOS 에서는 실제로 Text 를 그릴 때 이러한 Fractional part(pxiel 영역으로 나눠지지 않는 값들)를 anti-aliasing 을 사용하여 그립니다.
 
-![label-pixel-boundary-example](./label-pixel-boundary-example.png){: width="60%" }
+![label-pixel-boundary-example](./label-pixel-boundary-example.png)
 
 <small>출처: [Cap Height Alignment for iOS Auto Layout](https://www.atimi.com/cap-height-alignment-for-ios-auto-layout/)</small>
 
@@ -139,7 +139,7 @@ iOS 에서는 실제로 Text 를 그릴 때 이러한 Fractional part(pxiel 영�
 
 <!-- {% gist 0a27e87a4a14539dbea3f931ec8eeedd baseline-anchor.swift %} -->
 
-![base-label-baselineanchor](./base-label-baselineanchor.png){: width="100%" }
+![base-label-baselineanchor](./base-label-baselineanchor.png)
 
 <small>출처: [FirstBaseLineNachor & LastBaseLineAnchor](https://milyo-codingstories.tistory.com/51)</small>
 

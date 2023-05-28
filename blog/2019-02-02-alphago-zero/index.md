@@ -52,7 +52,7 @@ AlphaGo Lee 에서 수 읽기 시간에 다음 수를 두기 위해서만 MCTS �
 기존에는 단순히 CNN 을 썼던 것과는 다르게, 많은 Residual block 을 함께 썼습니다.
 Residual network 는 Image Recognition 대회에서 좋은 성적을 거둔 Network 의 하나입니다.
 
-![MCTS in training](./mcts-training-data.png){: width="100%" }
+![MCTS in training](./mcts-training-data.png)
 
 <small>이미지 출처: Mastering the game of Go without Human Knowledge</small>
 
@@ -64,7 +64,7 @@ MCTS 계산을 하면 다음 수의 위치가 확률 분포가 나오고 이게 
 종료 상태에 도달하게 되면 게임에 대한 승패 (+1, -1) 보상 $$z$$ 가 결정됩니다.
 이렇게 한 게임이 끝날 때마다 데이터 ($$s_1, \pi_1, z$$), ($$s_2, \pi_2, z$$) ... ($$s_t, \pi_t, z$$) 가 모입니다.
 
-![MCTS Leaning](./mcts-learning.png){: width="100%" }
+![MCTS Leaning](./mcts-learning.png)
 
 <small>이미지 출처: Mastering the game of Go without Human Knowledge</small>
 
@@ -80,7 +80,7 @@ $$l = (z-v)^2 - \pi^T log(p) + c ||\theta||^2$$
 
 # MCTS: Monte Carlo Tree Search
 
-![MCTS Leaning](./mcts-step.png){: width="100%" }
+![MCTS Leaning](./mcts-step.png)
 
 <small>이미지 출처: Mastering the game of Go without Human Knowledge</small>
 

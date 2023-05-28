@@ -49,7 +49,7 @@ AlphaGo 는 이 많은 경우의 수를 어떻게 처리했을까요?
 Supervised Learning Policy Network 는 바둑판의 상태를 입력으로 다음 수가 어디에 놓일지 예측하는 Network 입니다.
 다음 수를 어느 곳에 둘지 나타내는 확률 분포가 출력으로 나옵니다.
 
-![distribution](./next-step-distribution.png){: width="50%" }
+![distribution](./next-step-distribution.png)
 
 <small>이미지 출처: Mastering the game of Go with deep neural networks and tree search</small>
 
@@ -78,7 +78,7 @@ Value Network 는 바둑판의 상태를 보고 승률을 예측합니다.
 위에서 설명한 Policy Network 들은 바둑판의 상태를 보고 다음 수에 대한 확률 분포를 내뱉습니다.
 하지만 Value Network 는 같은 구조로 구성되지만, 승률만 내뱉습니다.
 
-![Policy Network, Value network 의 Output](./policy-value-network-output.png){: width="50%"}
+![Policy Network, Value network 의 Output](./policy-value-network-output.png)
 
 <small>이미지 출처: Mastering the game of Go with deep neural networks and tree search</small>
 
@@ -98,7 +98,7 @@ Policy Network 가 수를 두면서 결괏값을 예측하는 것보다 바둑�
 Monte Carlo 는 계산하려는 값을 구하기 힘들 때 수많은 시도를 통해 근사적으로 계산하는 방법을 말한다.
 아래 그림은 수많은 점을 찍어 원주율을 계산하는 과정입니다.
 
-![Monte Carlo Example](./Pi_30K.gif){: width="50%"}
+![Monte Carlo Example](./Pi_30K.gif)
 <small>이미지 출처: 나무위키</small> -->
 
 MCTS 는 가상으로 수많은 수를 두면서 트리를 구성하는 방식이다. 많은 게임을 하면 할수록 트리는 더 다양한 상황을 탐색하고 더 좋은 수를 알아낼 수 있습니다.
@@ -109,13 +109,13 @@ MCTS 는 크게 4 step(Selection, Expansion, Evaluation, Backup) 으로 나눌 �
 MCTS 의 첫 과정 Selection, Expansion 은 SL Policy 를 이용하여 트리를 만들어나갑니다.
 트리에는 상태 s 에서 행동 a 를 취했을 때 얼마만큼의 가치가 있는지를 나타내는 $$Q(s, a)$$, 방문 횟수 N(s, a) 그리고 사전확률 P(s, a) 등을 저장합니다.
 
-![MCTS Selection](./mcts-step-selection.png){: width="50%"}
+![MCTS Selection](./mcts-step-selection.png)
 
 <small>이미지 출처: Mastering the game of Go with deep neural networks and tree search</small>
 
 먼저 위 그림과 같이 루트에서 $$Q+u(p)$$ 큰 값의 상태를 따라 내려갑니다.
 
-![MCTS Expansion](./mcts-step-expansion.png){: width="50%"}
+![MCTS Expansion](./mcts-step-expansion.png)
 
 <small>이미지 출처: Mastering the game of Go with deep neural networks and tree search</small>
 
@@ -133,7 +133,7 @@ $$u(p)$$ 는 $$P(s, a) / N(s, a)$$ 값에 비례합니다.
 
 Selection, Expansion 으로 바둑돌을 놓은 후 얼마나 좋은 수인지 가치를 매깁니다.
 
-![MCTS Evaluation](./mcts-step-evaluation.png){: width="50%"}
+![MCTS Evaluation](./mcts-step-evaluation.png)
 
 <small>이미지 출처: Mastering the game of Go with deep neural networks and tree search</small>
 
@@ -147,7 +147,7 @@ Value Network 의 값과 Rollout Policy Network 로 플레이한 게임의 결�
 이렇게 Selection, Expansion, Evaluation 을 해서 얻은 값을 지나온 경로의 상태들에 반영됩니다.
 반영된 $$Q$$ 값을 보고 다음 Selection, Expansion, Evaluation 을 반복합니다.
 
-![MCTS Backup](./mcts-step-backup.png){: width="50%"}
+![MCTS Backup](./mcts-step-backup.png)
 
 <small>이미지 출처: Mastering the game of Go with deep neural networks and tree search</small>
 

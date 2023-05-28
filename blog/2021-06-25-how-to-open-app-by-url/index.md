@@ -4,7 +4,7 @@ authors: [slorber, yangshun]
 tags: [universallink]
 ---
 
-![Question About Deeplink](./question_about_deeplink.jpg){: width="100%" }
+![Question About Deeplink](./question_about_deeplink.jpg)
 최근에 서비스에서 중요한 기능을 개발하면서 해당 화면으로 사람들을 유도할 수 있는 링크에 대한 질문을 많이 받았습니다.
 이와 관련된 답변을 준비하다 보니 url 을 통해 어떻게 설치되어 있으면 앱을 열고 설치되어 있지 않은 앱들은 앱스토어로 보내는 지에 대한 이해가 부족하다고 느꼈습니다.
 관련된 3rd party 서비스 [Branch](https://branch.io/) 가 어떤 기능들을 제공해주는지에 대한 이해도 필요했습니다.
@@ -49,7 +49,7 @@ Universal Link 는 URL 진입 시 URL 에 맞는 앱이 설치되어 있으면 �
 
 ## Behind the scenes
 
-![How to get AASA files from server](./how-to-get-aasa-from-server.png){: width="50%" }
+![How to get AASA files from server](./how-to-get-aasa-from-server.png)
 <small>출처: [WWDC 2020 What's new in Universal Link](https://developer.apple.com/videos/play/wwdc2020/10098/)</small>
 Universal Link 를 활성화 시키기 위해서는 앱에 어떤 도메인을 쓸 것인지 명시해야 합니다.
 시스템은 앱을 다운 받아 설치할 때, 등록된 도메인의 AASA 파일을 파싱하여 Universal Link 를 활성화 시킵니다.
@@ -57,7 +57,7 @@ Universal Link 를 활성화 시키기 위해서는 앱에 어떤 도메인을 �
 사용자가 앱스토어에서 앱을 다운받아 설치하면 시스템에서 앱에 등록된 도메인의 AASA 파일을 다운, 파싱하여 Universal Link 를 활성화 시킵니다.
 시스템은 AASA 의 업데이트 된 내용을 반영하기 위해 주기적으로 AASA 파일을 다운로드 합니다.
 
-![How to get AASA files from Apple CDN](./how-to-get-aasa-from-apple-cdn.png){: width="50%" }
+![How to get AASA files from Apple CDN](./how-to-get-aasa-from-apple-cdn.png)
 
 "applinks", "apps" 는 템플릿의 형태로 Universal Link 선언이라고 보면 됩니다.
 
@@ -76,7 +76,7 @@ Universal Link 를 활성화 시키기 위해서는 앱에 어떤 도메인을 �
 링크 설정에서는 사용자가 앱이 설치되어 있지 않았을 때 어디로 보낼지 정할 수 있습니다. 보통 모바일 플랫폼에서는 해당 스토어로 보내고 PC 에서 링크를 접속했을 때는 대표 홈페이지로 이동합니다.
 
 AASA 파일에 exclude 옵션을 이용하여 `/e/*` 를 제외시키도록 등록해놓고 https://tadatada.test-app.link/e/6us6DGSmg3 처럼 바꿔 Universal Link 가 동작하지 않게 합니다.
-![Branch Quick Links Link Data](./branch_quick_links_link_data.png){: width="100%" }
+![Branch Quick Links Link Data](./branch_quick_links_link_data.png)
 Link Data 설정에서는 `$deeplink_path` 를 이용하여 사용자를 어디로 보낼지 명시할 수 있습니다.
 
 위에서 https://tadatada.test-app.link/6us6DGSmg3 링크를 만들어 앱이 설치되어 있는 경우에는 쿠폰함으로, 앱이 설치되어 있지 않은 경우에는 앱스토어로 이동하게 설정하였습니다.

@@ -4,6 +4,8 @@ authors: [slorber, yangshun]
 tags: [game, synchronization]
 ---
 
+import picoTankVideo from './remove-animations-pico-tanks.mp4';
+
 모빌리티 플랫폼 '타다' 개발에서 탑승 플로우(호출 - 호출 중 - 매칭 - 탑승 - 탑승 완료)를 앱에서 잘 보여주는 것이 매우 중요합니다.
 호출을 하고 있다가 시간 만료로 취소가 되거나 매칭이 되었지만 드라이버가 사정이 생겨 취소하는 경우 등 탑승자의 아무런 입력 없이도 앱에서 탑승 상태를 잘 나타내야 합니다.
 서버에 탑승 상태를 모바일 앱에서 잘 보여주기 위한 방법들을 고민하다가 멀티플레이어 게임에서의 어떻게 다른 플레이어들과 동시간대에 있는 것처럼 동기화가 잘되는지가 궁금해졌습니다.
@@ -18,7 +20,7 @@ tags: [game, synchronization]
 
 ## Lockstep
 
-![lockstep-process](./lockstep-process.png){: width="60%" }
+![lockstep-process](./lockstep-process.png)
 
 <small>출처: [멀티플레이 게임의 동기화 기법 시리즈 2편: 이벤트 동기화](https://blog.naver.com/linegamedev/221061964789)</small>
 
@@ -28,7 +30,7 @@ Lockstep 은 라운드마다 서버가 플레이어들의 입력을 모아서 �
 가장 처리가 느린 클라이언트 위주로 진행되기 때문에 레이턴시가 큰 유저가 있으면 멈춤이 발생합니다.
 참가자 수가 적은 RTS 에서 사용하고 참가자 수가 늘어날 수록 입력 패킷 도달 지연이 발생할 가능성이 큽니다.
 
-![lockstep-fixed-time-interval](./lockstep-fixed-time-interval.png){: width="60%" }
+![lockstep-fixed-time-interval](./lockstep-fixed-time-interval.png)
 
 <small>출처: [멀티플레이 게임의 동기화 기법 시리즈 2편: 이벤트 동기화](https://blog.naver.com/linegamedev/221061964789)</small>
 
@@ -38,7 +40,7 @@ Lockstep 은 라운드마다 서버가 플레이어들의 입력을 모아서 �
 서로의 상태를 hash value 로 항상 비교합니다.
 주로 RTS 혹은 과거 AOS 게임에서 쓰는 방식입니다.
 
-![lockstep-table-step1](./lockstep-table-step1.png){: width="60%" }
+![lockstep-table-step1](./lockstep-table-step1.png)
 
 <small>출처: [[NDC] CAP 이론을 통한 네트워크 동기화 기법](https://youtu.be/j3eQNm-Wk04)</small>
 
@@ -46,13 +48,13 @@ Lockstep 은 라운드마다 서버가 플레이어들의 입력을 모아서 �
 각 클라이언트는 이벤트 큐가 존재하고 라운드마다 이벤트를 처리합니다.
 네트워크 상황에 따라 이벤트를 처리하는 시점이 다를텐데 여기서 '나' 와 '상대2' 에 대한 이벤트를 받았지만 '상대1' 에 대한 이벤트는 받지 못한 상황입니다.
 
-![lockstep-table-step2](./lockstep-table-step2.png){: width="60%" }
+![lockstep-table-step2](./lockstep-table-step2.png)
 
 <small>출처: [[NDC] CAP 이론을 통한 네트워크 동기화 기법](https://youtu.be/j3eQNm-Wk04)</small>
 
 '상대1' 의 이벤트까지 모이면 해당 라운드를 시뮬레이션해서 처리합니다.
 
-![lockstep-table-step3](./lockstep-table-step3.png){: width="60%" }
+![lockstep-table-step3](./lockstep-table-step3.png)
 
 <small>출처: [[NDC] CAP 이론을 통한 네트워크 동기화 기법](https://youtu.be/j3eQNm-Wk04)</small>
 
@@ -65,7 +67,7 @@ Lockstep 은 라운드마다 서버가 플레이어들의 입력을 모아서 �
 
 게임 스타크래프트를 해봤으면 위와 같은 팝업들을 많이 보셨을 겁니다. 라운드 처리를 위해 상대방 이벤트를 기다리다가 쫓은 상황입니다.
 
-![lockstep-starcraft-network-options](./lockstep-starcraft-network-options.png){: width="60%" }
+![lockstep-starcraft-network-options](./lockstep-starcraft-network-options.png)
 
 <small>출처: [Robocop's Starcraft Page](http://starcraft.burningblade.org/stories/index.html)</small>
 
@@ -85,20 +87,20 @@ Lockstep 은 라운드마다 서버가 플레이어들의 입력을 모아서 �
 
 위 영상은 실제로 버그였지만 위 영상과 같이 클라이언트와 서버 상태가 다른 경우 그에 맞게 다시 되돌아가는 현상이 생길 수 있습니다.
 
-![server-authoritative-overwatch-tracer-server-stunned](./server-authoritative-overwatch-tracer-server-stunned.png){: width="80%" }
+![server-authoritative-overwatch-tracer-server-stunned](./server-authoritative-overwatch-tracer-server-stunned.png)
 
 <small>출처: [Overwatch Gameplay Architecture and Netcode](https://youtu.be/W3aieHjyNvw)</small>
 
 게임 오버워치에서 '트레이서' 라는 캐릭터가 클라이언트에서는 움직이고 있다가 다른 플레이어의 공격으로 인해 기절한 상황입니다.
 서버에서 기절 상태를 전송받기 전까지는 클라이언트는 계속 이동상태를 보여줍니다.
 
-![server-authoritative-overwatch-tracer-client-stunned](./server-authoritative-overwatch-tracer-client-stunned.png){: width="80%" }
+![server-authoritative-overwatch-tracer-client-stunned](./server-authoritative-overwatch-tracer-client-stunned.png)
 
 <small>출처: [Overwatch Gameplay Architecture and Netcode](https://youtu.be/W3aieHjyNvw)</small>
 
 서버에서 기절 상태를 받게 되면 그 시점부터 일정 시간 동안 클라이언트에서 기절 상태를 보여줍니다.
 
-![server-authoritative-overwatch-tracer-client-stunned-finished](./server-authoritative-overwatch-tracer-client-stunned-finished.png){: width="80%" }
+![server-authoritative-overwatch-tracer-client-stunned-finished](./server-authoritative-overwatch-tracer-client-stunned-finished.png)
 
 <small>출처: [Overwatch Gameplay Architecture and Netcode](https://youtu.be/W3aieHjyNvw)</small>
 
@@ -112,7 +114,7 @@ Lockstep 은 라운드마다 서버가 플레이어들의 입력을 모아서 �
 머신에서 제공하는 타임스탬프 값을 사용하여 이벤트가 발생한 시점 정보를 공유할 수 있는데, 문제는 머신마다 시간 정보에 미세한 차이가 있을 수 있습니다.
 그래서 서버에서 시간을 결정하고 클라이언트에게는 현재 시간을 파악하는 API 를 제공합니다.
 
-![time-synchronization-estimation](./time-synchronization-estimation.png){: width="60%" }
+![time-synchronization-estimation](./time-synchronization-estimation.png)
 
 <small>출처: [멀티플레이 게임의 동기화 기법 시리즈 1편: 시간 동기화](https://blog.naver.com/linegamedev/221060368580)</small>
 
@@ -142,19 +144,19 @@ Lockstep 은 라운드마다 서버가 플레이어들의 입력을 모아서 �
 
 # Synchronization Details
 
-![client-server-request-response-delay](./client-server-request-response-delay.png){: width="60%" }
+![client-server-request-response-delay](./client-server-request-response-delay.png)
 
 <small>출처: [Fast-Paced Multiplayer (Part I): Client-Server Game Architecture](https://www.gabrielgambetta.com/client-server-game-architecture.html)</small>
 
 클라이언트와 서버 통신으로 인해 실제로 플레이어가 요청한 입력은 일정 시간 후에 처리됩니다.
 
-![client-server-request-response-animation-after-delay](./client-server-request-response-animation-after-delay.png){: width="60%" }
+![client-server-request-response-animation-after-delay](./client-server-request-response-animation-after-delay.png)
 
 <small>출처: [Fast-Paced Multiplayer (Part II): Client-Side Prediction and Server Reconciliation](https://www.gabrielgambetta.com/client-side-prediction-server-reconciliation.html)</small>
 
 일정 시간 후에 동작하는 움직임은 플레이어들에게 그리 좋지 않은 경험입니다.
 
-![client-server-request-response-animation-delay-other-players](./client-server-request-response-delay-other-players.png){: width="60%" }
+![client-server-request-response-animation-delay-other-players](./client-server-request-response-delay-other-players.png)
 
 <small>출처: [Fast-Paced Multiplayer (Part III): Entity Interpolation](https://www.gabrielgambetta.com/entity-interpolation.html)</small>
 
@@ -164,14 +166,14 @@ Lockstep 은 라운드마다 서버가 플레이어들의 입력을 모아서 �
 
 ## Prediction and Reconciliation
 
-![prediction-reconciliation-move-first-before-response](./prediction-reconciliation-move-first-before-response.png){: width="60%" }
+![prediction-reconciliation-move-first-before-response](./prediction-reconciliation-move-first-before-response.png)
 
 <small>출처: [Fast-Paced Multiplayer (Part II): Client-Side Prediction and Server Reconciliation](https://www.gabrielgambetta.com/client-side-prediction-server-reconciliation.html)</small>
 
 간단한 해결책으로 서버 응답을 기다리지 않고 먼저 움직이는 것입니다.
 근데 그렇게 하면 이후 서버에서 응답이 왔을 때 다시 전위치로 돌아갔다가 제위치로 돌아오게 됩니다.
 
-![prediction-reconciliation-move-first-reconciliation](./prediction-reconciliation-move-first-reconciliation.png){: width="60%" }
+![prediction-reconciliation-move-first-reconciliation](./prediction-reconciliation-move-first-reconciliation.png)
 
 <small>출처: [Fast-Paced Multiplayer (Part II): Client-Side Prediction and Server Reconciliation](https://www.gabrielgambetta.com/client-side-prediction-server-reconciliation.html)</small>
 
@@ -182,7 +184,7 @@ Lockstep 은 라운드마다 서버가 플레이어들의 입력을 모아서 �
 Prediction(서버 응답이 오기 전에 미리 움직이기) 만 키면 먼저 움직였다가 돌아오는 걸 볼 수 있습니다.
 여기서 Reconciliation(요청을 저장하고 서버에서 온 응답을 처리해가면서 적용) 을 키면 원래 자리로 돌아가지 않고 부드럽게 반영되는 걸 볼 수 있습니다.
 
-![client-server-request-response-delay-other-players](./client-server-request-response-delay-other-players.png){: width="60%" }
+![client-server-request-response-delay-other-players](./client-server-request-response-delay-other-players.png)
 
 <small>출처: [Fast-Paced Multiplayer (Part II): Client-Side Prediction and Server Reconciliation](https://www.gabrielgambetta.com/client-side-prediction-server-reconciliation.html)</small>
 
@@ -190,7 +192,7 @@ Prediction(서버 응답이 오기 전에 미리 움직이기) 만 키면 먼저
 
 ## Dead Reckoning
 
-![server-response-interpolated-from-past-positions](./server-response-interpolated-from-past-positions.png){: width="60%" }
+![server-response-interpolated-from-past-positions](./server-response-interpolated-from-past-positions.png)
 
 <small>출처: [Fast-Paced Multiplayer (Part III): Entity Interpolation](https://www.gabrielgambetta.com/entity-interpolation.html)</small>
 
@@ -199,7 +201,7 @@ Dead Reckoning(DR)은 '추측 항법' 으로 쓰이기도 하는데 거리 및 �
 단순히 패킷에 좌표만 담는 게 아니라 속도, 가속도를 담아 전달하면 다른 클라이언트에서는 마지막으로 확인된 패킷의 정보를 통해 현재 위치를 유추할 수 있습니다.
 즉, 위치, 향하는 방향 그리고 속도를 알고 있고 현재가 그 시점으로부터 어느 정도 시간이 흘렀는지를 알고 있다면 현재 위치를 계산할 수 있습니다.
 
-![interpolation-extrapolation-cartrider](./interpolation-extrapolation-cartrider.png){: width="60%" }
+![interpolation-extrapolation-cartrider](./interpolation-extrapolation-cartrider.png)
 
 <small>출처: [〈카트라이더〉 0.001초 차이의 승부 - 300km/h 물체의 네트워크 동기화 모델 구현기](https://youtu.be/r4ZaolMQOzE)</small>
 
@@ -208,14 +210,18 @@ Dead Reckoning(DR)은 '추측 항법' 으로 쓰이기도 하는데 거리 및 �
 
 ### Interpoliation and Extrapolation
 
-<!-- {% include youtube.html start=800 end=815 id="r4ZaolMQOzE" %} -->
+<iframe width="560" height="315" src="https://www.youtube.com/embed/r4ZaolMQOzE?start=650&end=725"
+  title="YouTube video player" frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen>
+</iframe>
 
 Interpolation 은 0 과 1 값이 있을 때 0 과 1 사잇 값을 유추하는 거라면, Extrapolation Range 를 넘어선 2, 3을 유추하는 과정입니다.
 패킷을 보낸 시각, 카트의 위치, 카트의 선형 속도, 각속도 등을 이용하여 상대방의 위치를 유추합니다.
 클라이언트 간 시간을 맞추기 위해 서버 시간을 이용, 서버는 클라이언트에 현재 시간을 보냅니다.
 클라이언트 시계와 서버 시계를 비교하여 델타를 구해 서버의 시간을 유추하고 패킷에 담습니다.
 
-![extrapolation-cartrider](./extrapolation-cartrider.png){: width="60%" }
+![extrapolation-cartrider](./extrapolation-cartrider.png)
 
 <small>출처: [〈카트라이더〉 0.001초 차이의 승부 - 300km/h 물체의 네트워크 동기화 모델 구현기](https://youtu.be/r4ZaolMQOzE)</small>
 
@@ -224,21 +230,31 @@ Interpolation 은 0 과 1 값이 있을 때 0 과 1 사잇 값을 유추하는 �
 구체적인 내용은 [영상](https://youtu.be/r4ZaolMQOzE)을 참고해주세요.
 
 위와 같은 계산을 이용하면 20ms 레이턴시를 가질 때 영상입니다.
-<!-- {% include youtube.html start=840 end=869 id="r4ZaolMQOzE" %} -->
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/r4ZaolMQOzE?start=840&end=869"
+  title="YouTube video player" frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen>
+</iframe>
 
 200ms 레이턴시를 가질 때 영상입니다.
-<!-- {% include youtube.html start=880 end=920 id="r4ZaolMQOzE" %} -->
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/r4ZaolMQOzE?start=880&end=920"
+  title="YouTube video player" frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen>
+</iframe>
 
 ## Remove Animations
 
-![remove-animations-attacks-at-diffrent-times-before](./remove-animations-attacks-at-diffrent-times-before.png){: width="60%" }
+![remove-animations-attacks-at-diffrent-times-before](./remove-animations-attacks-at-diffrent-times-before.png)
 
 <small>출처: [네트웍 동기화 개론과 고급 동기화 기법](https://noti.st/eiaserinnys/jCpSbp)</small>
 
 상대방은 타격 요청을 하고 바로 애니메이션이 시작하는데 서버에서 상대방의 타격 요청을 알려줬을 때는 상대방 클라이언트에서 이미 타격 애니메이션이 꽤나 진행된 상태일 것입니다.
 실제로 동시에 타격판정이 일어나지 않아 보일 수 있다는 것이죠.
 
-![remove-animations-attacks-at-diffrent-times-after](./remove-animations-attacks-at-diffrent-times-after.png){: width="60%" }
+![remove-animations-attacks-at-diffrent-times-after](./remove-animations-attacks-at-diffrent-times-after.png)
 
 <small>출처: [네트웍 동기화 개론과 고급 동기화 기법](https://noti.st/eiaserinnys/jCpSbp)</small>
 
@@ -247,9 +263,9 @@ Interpolation 은 0 과 1 값이 있을 때 0 과 1 사잇 값을 유추하는 �
 | 처리하지 않았을 때 | 동기화 처리를 했을 때 |
 | ![remove-animations-non-converging-prediction](./remove-animations-non-converging-prediction.png) | ![remove-animations-converging-prediction](./remove-animations-converging-prediction.png) |
 
-<!-- <video width="80%" controls>
-  <source src="/images/20220310-game-synchronizations/remove-animations-pico-tanks.mp4" type="video/mp4">
-</video> -->
+<video width="80%" controls>
+  <source src={picoTankVideo} type="video/mp4"/>
+</video>
 
 <small>출처: [PickoTanks Twitter](https://twitter.com/PickTanks/status/1097623864966819840)</small>
 
@@ -260,7 +276,7 @@ Interpolation 은 0 과 1 값이 있을 때 0 과 1 사잇 값을 유추하는 �
 실제 타격 피해에 대해서는 클라이언트에서 처리하면 많은 부정행위 떄문에 플레이어들이 떠날 수 있습니다.
 그래서 서버에서 클라이언트 상태, 지연시간 등을 고려, 서버에서 정보를 재구성하고 타격 처리를 진행합니다.
 
-![hit-registration-boundary-overwatch-example](./hit-registration-boundary-overwatch-example.png){: width="60%" }
+![hit-registration-boundary-overwatch-example](./hit-registration-boundary-overwatch-example.png)
 
 <small>출처: [Overwatch Gameplay Architecture and Netcode](https://youtu.be/W3aieHjyNvw)</small>
 
@@ -268,7 +284,11 @@ Interpolation 은 0 과 1 값이 있을 때 0 과 1 사잇 값을 유추하는 �
 해당 객체가 0.5초 정도 사이에 움직일 수 있는 영역을 계산하여 영역에 총알이 들어 갔을 때 해당 객체의 정보를 재구성하는지 판단합니다.
 위 이미지에서 총을 쐈을 때 라인하르트(오른쪽에 방패들고 있는 애) 에 대한 정보를 재구성하지 않습니다.
 
-<!-- {% include youtube.html start=2270 end=2305 id="W3aieHjyNvw" %} -->
+<iframe width="560" height="315" src="https://www.youtube.com/embed/W3aieHjyNvw?start=2270&end=2305"
+  title="YouTube video player" frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen>
+</iframe>
 
 오버워치에서 타격 판정을 위해 어떻게 계산하는지 시각적으로 보여주는 영상입니다.
 
@@ -278,15 +298,23 @@ Interpolation 은 0 과 1 값이 있을 때 0 과 1 사잇 값을 유추하는 �
 
 총을 발포했지만 메이의 스킬로 인해 발포자의 위치가 바뀌어 실제로 타격이 일어나지 않았다 고 판단한 경우입니다.
 
-<!-- {% include youtube.html start=2440 end=2500 id="W3aieHjyNvw" %} -->
+<iframe width="560" height="315" src="https://www.youtube.com/embed/W3aieHjyNvw?start=2440&end=2500"
+  title="YouTube video player" frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen>
+</iframe>
 
 - Overwatch: Hanzo and Reaper
 
 한조가 화살을 쏴서 타격 애니메이션이 발동했지만 리퍼의 스킬로 인해 실제로 맞지 않았다고 판단한 경우입니다. 실제로 피해를 입었다면 상단에 체력바가 뜹니다.
 
-<!-- {% include youtube.html start=2500 end=2535 id="W3aieHjyNvw" %} -->
+<iframe width="560" height="315" src="https://www.youtube.com/embed/W3aieHjyNvw?start=2500&end=2535"
+  title="YouTube video player" frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen>
+</iframe>
 
-![lag-compensation](./lag-compensation.png){: width="60%" }
+![lag-compensation](./lag-compensation.png)
 
 <small>출처: [ValveSofteware Wiki - LagCompensation](https://developer.valvesoftware.com/wiki/Source_Multiplayer_Networking#Lag_compensation)</small>
 
@@ -294,13 +322,13 @@ Interpolation 은 0 과 1 값이 있을 때 0 과 1 사잇 값을 유추하는 �
 붉은색 박스가 총 쏘는 입장에서 캐릭터 위치, 파란색 박스가 서버에서는 실제 캐릭터 위치를 100ms 뒤로 이동시킨 위치입니다.
 타격이 파란색 박스 어느정도 겹치면 히트 판정하는 식입니다.
 
-![lag-compenstion-graph-shooting](./lag-compenstion-graph-shooting.png){: width="60%" }
+![lag-compenstion-graph-shooting](./lag-compenstion-graph-shooting.png)
 
 <small>출처: [[NDC] CAP 이론을 통한 네트워크 동기화 기법](https://youtu.be/j3eQNm-Wk04)</small>
 
 클라이언트는 과거 서버의 상태를 보여주기 때문에 타격이 실행된 시점과 현 시점의 상대방의 위치는 다를 수 있습니다.
 
-![lag-compenstion-graph-shooting-rewind](./lag-compenstion-graph-shooting-rewind.png){: width="60%" }
+![lag-compenstion-graph-shooting-rewind](./lag-compenstion-graph-shooting-rewind.png)
 
 <small>출처: [[NDC] CAP 이론을 통한 네트워크 동기화 기법](https://youtu.be/j3eQNm-Wk04)</small>
 

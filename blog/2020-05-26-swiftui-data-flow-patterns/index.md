@@ -70,7 +70,7 @@ store 내에 score 값은 갱신했지만 View 를 새로 그리는 로직은 St
 
 `onPreferenceChange` 를 통해 같은 Preference 를 감지하고 있어도 자식이 아닌 경우에는 호출되지 않습니다.
 
-![Preference Propagation Example](./from-child-to-parent-preference-example.png){: width="60%" }
+![Preference Propagation Example](./from-child-to-parent-preference-example.png)
 
 위의 그림을 예로 들면 B 의 자식 B\`, B\`\` 의 Preference 가 변경되면 A 에 같은 Preference Key 로 `onPreferenceChange` 를 등록해놨다 하더라도 불리지 않습니다.
 

@@ -26,7 +26,7 @@ JVM 에서 작동하는 Garbage Collection 은 프로그램 실행 중에 더 �
 ## How Reference Counting Works
 
 <!-- {% gist 97ea3d18ca1aaa7dba22b145788f5088 how_reference_counting_works_class.swift %} -->
-![How Reference Counting Works](./how_reference_counting_works.png){: width="60%" }
+![How Reference Counting Works](./how_reference_counting_works.png)
 
 <small>출처: [WWDC 2016 Understanding Swift Performance](https://developer.apple.com/videos/play/wwdc2016/416/)</small>
 
@@ -71,20 +71,20 @@ Reference Counting 이 atomic 하게 동작하기 때문에 Stack 보다 상대�
 struct 는 Stack 에 데이터가 저장되며 다른 변수에 할당하게 되면 데이터를 복사합니다.
 같은 객체를 쓰는 것이 아니기 때문에 값을 변경해도 다른 객체에 영향을 주지 않습니다.
 값에 의해 객체를 구분하기 때문에 Equatable 을 구현해야 합니다.
-![Struct vs. Class Array of Struct](./struct_vs_class_struct_array.png){: width="60%" }
+![Struct vs. Class Array of Struct](./struct_vs_class_struct_array.png)
 
 <small>출처: [WWDC 2015 Optimizing Swift Performance](https://developer.apple.com/videos/play/wwdc2015/409/)</small>
 class 객체는 heap 에 데이터를 저장합니다. 다른 변수에 할당하면 reference 를 복사하기 떄문에 같은 객체에 대한 접근이 여러 변수를 통해서 가능합니다.
 class 는 객체의 identitiy 가 중요하거나 inheritance, indirect storage 등의 목적으로 쓰입니다.
 
-![Struct vs. Class Array of Struct](./struct_vs_class_class_array.png){: width="60%" }
+![Struct vs. Class Array of Struct](./struct_vs_class_class_array.png)
 
 <small>출처: [WWDC 2015 Optimizing Swift Performance](https://developer.apple.com/videos/play/wwdc2015/409/)</small>
 
 프로토콜을 구현한 struct 는 일반적인 struct 와는 조금 다른 형태를 가집니다.
 위 코드에서 `drawables` 변수는 프로토콜 배열입니다. 하지만 Point 와 Line 객체는 다른 크기를 가집니다.
 같은 프로토콜을 구현했지만 다른 크기를 가지는 경우를 생각해서 Swift 에서는 Existential Container 이용합니다.
-![Struct: Protocol Implementation](./protocol_implementation_struct.png){: width="60%" }
+![Struct: Protocol Implementation](./protocol_implementation_struct.png)
 
 <small>출처: [WWDC 2015 Optimizing Swift Performance](https://developer.apple.com/videos/play/wwdc2015/409/)</small>
 
