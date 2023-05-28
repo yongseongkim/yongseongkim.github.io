@@ -4,7 +4,7 @@ tags: [swift]
 ---
 
 영어 읽는 습관을 기르고 기술적인 내용을 많이 접하기 위해 [Medium](https://medium.com/) 글들을 많이 읽으려고 노력합니다.
-많은 글들을 접하던 중 [Can You Answer This SImple Swift Question Correctly?](https://medium.com/swlh/can-you-answer-this-simple-swift-question-correctly-3d2836cff7b1) 글을 읽었는데
+많은 글들을 접하던 중 [Can You Answer This Simple Swift Question Correctly?](https://medium.com/swlh/can-you-answer-this-simple-swift-question-correctly-3d2836cff7b1) 글을 읽었는데
 Closure 안에서 변수 접근에 대한 질문에 많은 사람들이 제대로 답을 하지 못했다 라고 합니다.
 평소에 중요하게 생각했던 부분이었고 면접 준비를 위해 정리하기로 했습니다.
 
@@ -13,7 +13,54 @@ Closure 안에서 변수 접근에 대한 질문에 많은 사람들이 제대�
 # Questions
 
 아래 질문들에 답변을 할 수 있다면 내용은 읽을 필요 없습니다 :)
-<!-- {% gist 97ea3d18ca1aaa7dba22b145788f5088 questions_about_closure.swift %} -->
+
+```swift
+// Question 1
+var variable = "Value before defining closure"
+let closure = {
+    print(variable)
+}
+variable = "Value after defining closure"
+closure() // ?
+// Question 2
+var variable = "Value before defining closure"
+let closure = { [variable] in
+    print(variable)
+}
+variable = "Value after defining closure"
+closure() // ?
+// Question 3
+class Object {
+    var name: String
+
+    init(name: String) {
+        self.name = name
+    }
+}
+var obj = Object(name: "Value before defining closure")
+let closure = { [obj] in
+    print(obj.name)
+}
+obj.name = "Value after defining closure"
+closure() // ?
+// Question 4
+func makeIncrementer(forIncrement amount: Int) -> () -> Int {
+    var runningTotal = 0
+    func incrementer() -> Int {
+        runningTotal += amount
+        return runningTotal
+    }
+    return incrementer
+}
+
+let incrementByTen = makeIncrementer(forIncrement: 10)
+incrementByTen() // returns ?
+incrementByTen() // returns ?
+incrementByTen() // returns ?
+let incrementBySeven = makeIncrementer(forIncrement: 7)
+incrementBySeven() // returns ?
+incrementByTen() // returns ?
+```
 
 ARC 는 Automatic Reference Counting 의 약자로 자동으로 Reference Count 를 자동으로 관리해주는 방식입니다.
 Reference Counting 방식은 Reference 의 갯수를 보고 해당 객체가 필요한지 여부를 판단합니다.
@@ -24,7 +71,15 @@ JVM 에서 작동하는 Garbage Collection 은 프로그램 실행 중에 더 �
 
 ## How Reference Counting Works
 
-<!-- {% gist 97ea3d18ca1aaa7dba22b145788f5088 how_reference_counting_works_class.swift %} -->
+```swift
+class Point {
+    var x, y: Double
+}
+let point1 = Point(x: 0, y: 0)
+let point2 = point1
+point2.x = 5
+```
+
 ![How Reference Counting Works](./how_reference_counting_works.png)
 
 출처: [WWDC 2016 Understanding Swift Performance](https://developer.apple.com/videos/play/wwdc2016/416/)
@@ -41,7 +96,26 @@ Strong Reference 는 위에서 설명한 특성으로 인해 잘못 사용하면
 필요 없어진 객체가 Reference Count 가 0 이 되지 않아 메모리를 차지하게 되는 상황이죠.
 시간이 지나 서비스를 사용할 수록 메모리가 증가하면서 이상하게 동작할 수가 있습니다.
 
-<!-- {% gist 97ea3d18ca1aaa7dba22b145788f5088 how_reference_counting_works_reference_cycle_example.swift %} -->
+```swift
+class ObjectA {
+    var b: ObjectB?
+}
+class ObjectB {
+    var c: ObjectC?
+}
+class ObjectC {
+    var b: ObjectB?
+}
+let objA = ObjectA()
+let objB = ObjectB()
+let objC = ObjectC()
+objA.b = objB
+objB.c = objC
+objC.b = objB
+// ...
+objA.b = nil // ObjectB 에 대한 참조가 끊어져도 Reference Cycle 로 인해 메모리 해제되지 않습니다.
+```
+
 위 코드의 경우 ObjectA 가 ObjectB 에 대한 reference 를 없애도 ObjectB, ObjectC 서로 가리키고 있습니다.
 시간이 지남에 따라 이러한 객체들이 엄청난 메모리를 잡아먹으면서 서비스가 먹통이 될 수 있습니다.
 
@@ -98,11 +172,32 @@ Existential Container 는 Value Witness Table 을 이용하여 값을 생성, �
 함수가 불렸을 때, 함수 내 지역 변수와 매개 변수는 stack 에 저장됩니다.
 복사되는 값이기 때문에 함수 내 변경은 함수 밖 변수에 영향을 끼치지 않습니다.
 (현재 Swift 5 에서는 Value Type 의 매개 변수를 수정하려고 하면 컴파일 에러가 납니다. `Left side of mutating operator isn't mutable`)
-<!-- {% gist 97ea3d18ca1aaa7dba22b145788f5088 parameters_in_function_inout.swift %} -->
+
+```swift
+func plus(score: inout Int) {
+    score += 1
+}
+var score: Int = 0
+print("before updating - score: \(score)") // "before updating - score: 0"
+plus(score: &score)
+print("after updating - score: \(score)") // "after updating - score: 1"
+```
 
 Stack 에 함수의 Reference 를 복사하기 때문에 실제로 바깥 영역과 함수 내 영역의 변수가 같은 객체를 가리키고 있습니다.
 그래서 함수 내부에서 값을 변경해면 바깥까지 영향을 미칩니다.
-<!-- {% gist 97ea3d18ca1aaa7dba22b145788f5088 parameters_in_function_class.swift %} -->
+
+```swift
+class ScoreBoard {
+    var score: Int = 0
+}
+func updateScore(board: ScoreBoard) {
+    board.score += 1
+}
+let board = ScoreBoard()
+print("before updating - score: \(board.score)") // "before updating - score: 0"
+updateScore(board: board)
+print("after updating - score: \(board.score)") // "after updating score: 1"
+```
 
 ## Capturing Values in Closure
 
@@ -121,20 +216,81 @@ Closure 는 Escaping 과 Non-escaping 두 타입으로 나눌 수 있습니다.
 함수 내에서만 쓰이는 Non-escaping Closure 에서는 어떤 메모리를 참조하던 함수가 끝나면 동시에 메모리 해제하기 때문에 Memory leak 이 발생하지 않습니다.
 하지만 Escaping Closure 에서 변수를 가리키게 되면 Closure 의 생명 주기에 따라가기 때문에 예상치 못하게 동작하는 경우가 생길 수 있습니다.
 그래서 Escaping Closure 를 사용하는 경우 Weak Reference 를 사용하여 Memory leak 을 방지합니다.
-<!-- {% gist 97ea3d18ca1aaa7dba22b145788f5088 capturing_values_in_closure_escaping_non_escaping.swift %} -->
+
+```swift
+// Non-escaping Closure
+protocol KotlinCompatible {}
+extension KotlinCompatible {
+    // @non-esacping
+    func apply(_ block: (Self) -> Void) -> Self {
+        block(self)
+        return self
+    }
+}
+
+// Escaping Closure
+final class Coordinator: NSObject {
+    let onPickDocuments: (([URL]) -> Void)
+    let onCancelPick: () -> Void
+
+    // property 로 저장되는 것은 함수 밖으로 빠져나올 수 있으니 @escaping
+    init(onPickDocuments: @escaping (([URL]) -> Void), onCancelPick: @escaping () -> Void) {
+        self.onPickDocuments = { url in print(url) }
+        self.onCancelPick = onCancelPick
+    }
+}
+```
 
 ### Capture list
 
 Closure 내의 변수들을 보통 Strong Reference 로 가리키고 있기 때문에 Memory leak, Delayed Deallocation 등 예상치 못한 상황을 겪을 수 있습니다.
 Swift 에서는 Capture List 기능을 제공하는데 이 기능을 이용해서 이러한 상황을들 예방할 수 있습니다.
 Capture List 는 변수를 `[]` 로 감싸 선언합니다.
-<!-- {% gist 97ea3d18ca1aaa7dba22b145788f5088 capturing_values_in_closure_capture_list_value.swift %} -->
+
+```swift
+// 출처: https://docs.swift.org/swift-book/ReferenceManual/Expressions.html#ID544
+// Value Type
+var a = 0
+var b = 0
+let closure = { [a] in
+    // Capture List 로 선언하면서 a 는 복사되어
+    // scope 밖 변수 a 에 영향을 끼치지 않습니다.
+    print(a, b)
+}
+
+a = 10
+b = 10
+closure() // "0 10"
+```
 
 Reference Type 은 Reference 를 Capture 하기 때문에 Closure 안, 밖의 데이터 변경이 서로에게 영향을 줄 수 있습니다.
-<!-- {% gist 97ea3d18ca1aaa7dba22b145788f5088 capturing_values_in_closure_capture_list_reference.swift %} -->
+
+```swift
+// 출처: https://docs.swift.org/swift-book/ReferenceManual/Expressions.html#ID544
+class SimpleClass {
+    var value: Int = 0
+}
+var x = SimpleClass()
+var y = SimpleClass()
+let closure = { [x] in
+    // Capturing reference
+    print(x.value, y.value)
+}
+
+x.value = 10
+y.value = 10
+closure() // "10 10"
+```
 
 Capture list 에 weak, unowned 을 같이 선언하여 Reference Counting 에 영향을 주지 않을 수 있습니다.
-<!-- {% gist 97ea3d18ca1aaa7dba22b145788f5088 capturing_values_in_closure_capture_list_weak.swift %} -->
+
+```swift
+// 출처: https://docs.swift.org/swift-book/ReferenceManual/Expressions.html#ID544
+myFunction { [self] in print(self.title) }              // explicit strong capture
+myFunction { [weak self] in print(self!.title) }        // weak capture
+myFunction { [unowned self] in print(self.title) }      // unowned capture
+myFunction { [weak parent = self.parent] in print(parent!.title) }    // Weak capture of "self.parent" as "parent"
+```
 
 ### Usages of [weak self] in Closure
 
@@ -144,25 +300,120 @@ Weak Reference 를 통해 Memory leak, Delayed Deallocation 등을 예방할 수
 애니메이션이 끝나는 시점에 동작을 `addCompletion` 을 통해 정의합니다.
 `addCompletion` 에서 `ContentView` 를 접근하고 `ContentView` 가 `addCompletion` 을 정의한 Animator 를 가리키면서 Reference Cycle 이 생깁니다.
 (ContentView → Animator → Completion Closure → ContentView)
-<!-- {% gist 97ea3d18ca1aaa7dba22b145788f5088 usages_of_weak_self_in_closure_animation.swift %} -->
+
+```swift
+// 출처: https://medium.com/flawless-app-stories/you-dont-always-need-weak-self-a778bec505ef
+class ContentView: UIView {
+    // ContentView -> Animation Module -> Closure -> ContentView
+    func setupAnimation() {
+        let anim = UIViewPropertyAnimator(duration: 2.0, curve: .linear) {
+            // Do something with self.view
+        }
+        anim.addCompletion { _ in
+            // Do something with self.view
+        }
+        self.animationStorage = anim
+    }
+}
+```
 
 두 번째는 GCD 와 관련된 예제입니다. GCD 는 멀티스레드 사용을 위한 API 입니다.
 예제에서는 DispatchQueue 를 이용하여 다른 스레드에서 이미지를 처리할 때 Closure 내에서 self 를 참조합니다.
 근데 여기서는 `[weak self]` 를 썼으니 Reference Cycle 문제가 발생하지 않습니다.
 하지만 Closure 내의 동작이 많은 시간이 걸리는 경우 객체에 대한 참조를 없애도 작업이 완료되지 않아 메모리 해제가 되지 않는 문제가 발생할 수 있습니다.
 이럴 땐 guard let 구문을 없애서 Optional Self 를 이용하여 객체가 사라졌을 때 그 다음 작업을 처리 안하게 할 수 있습니다.
-<!-- {% gist 97ea3d18ca1aaa7dba22b145788f5088 usages_of_weak_self_in_closure_gcd.swift %} -->
+
+```swift
+// 출처: https://medium.com/flawless-app-stories/you-dont-always-need-weak-self-a778bec505ef
+func process(image: UIImage, completion: @escaping (UIImage?) -> Void) {
+    DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+        guard let self = self else { return }
+        let firstProcessed = self.doHeavyWork1(image: image)
+        let secondProcessed = self.doHeavyWork2(image: firstProcessed)
+        let thirdProcessed = self.doHeavyWork3(image: secondProcessed)
+        completion(processedImage)
+    }
+}
+```
 
 마지막으로 URLSession 을 이용하여 네트워크 통신 후 응답 값을 처리하는 Closure 에 대한 예제입니다.
 예제 Closure 는 네트워크 통신 후 응답 값이 도착할 때까지 self 를 강하게 참조하면서 self 의 메모리 해제를 방해할 수 있습니다.
 네트워크 요청을 한 화면이 사라졌음에도 네트워크 응답을 처리하면서 필요 없는 자원을 소모할 수 있습니다.
 아래와 같은 상황도 `[weak self]` Capture list 를 이용하여 이미 사라진 객체에 대한 처리를 하지 않게 할 수 있습니다.
-<!-- {% gist 97ea3d18ca1aaa7dba22b145788f5088 usages_of_weak_self_in_closure_url_session.swift %} -->
+
+```swift
+// 출처: https://medium.com/flawless-app-stories/you-dont-always-need-weak-self-a778bec505ef
+func delayedAllocAsyncCall() {
+    /* ... */
+    let session = URLSession(configuration: sessionConfig)
+    let task = session.downloadTask(with: url) { localURL, _, error in
+        guard let localURL = localURL else { return }
+        /*
+            Do something with `self`
+            ex) print(self.view)
+        */
+    }
+    task.resume()
+}
+```
 
 # Conclusion
 
 Swift 메모리 참조에 대해서 알아봤습니다. 위에 내용을 바탕으로 이제는 위에 질문들에 답을 쉽게 할 수 있을 것 같네요.
-<!-- {% gist 97ea3d18ca1aaa7dba22b145788f5088 questions_about_closure_with_answers.swift %} -->
+
+```swift
+// Question 1
+var variable = "Value before defining closure"
+let closure = {
+    print(variable)
+}
+variable = "Value after defining closure"
+closure() // "Value after defining closure"
+// Question 2
+var variable = "Value before defining closure"
+let closure = { [variable] in
+    // Value Type Capture
+    // 값을 복사하기 때문에 closure 선언 이후에 수정해도 영향을 끼치지 않습니다.
+    print(variable)
+}
+variable = "Value after defining closure"
+closure() // "Value before defining closure"
+// Question 3
+class Object {
+    var name: String
+
+    init(name: String) {
+        self.name = name
+    }
+}
+var obj = Object(name: "Value before defining closure")
+let closure = { [obj] in
+    // Reference Type Capture
+    // 같은 객체를 바라보기 때문에 안과 밖 데이터 변경이 서로 영향을 줍니다.
+    print(obj.name)
+}
+obj.name = "Value after defining closure"
+closure() // "Value after defining closure"
+// Question 4
+func makeIncrementer(forIncrement amount: Int) -> () -> Int {
+    var runningTotal = 0
+    func incrementer() -> Int {
+        // Closure 에서 Stack 에 저장된 값을 참조하는 경우
+        // Heap 에 복사되어 Closure 가 실행될 때 접근이 가능합니다.
+        runningTotal += amount
+        return runningTotal
+    }
+    return incrementer
+}
+
+let incrementByTen = makeIncrementer(forIncrement: 10)
+incrementByTen() // returns a value of 10
+incrementByTen() // returns a value of 20
+incrementByTen() // returns a value of 30
+let incrementBySeven = makeIncrementer(forIncrement: 7)
+incrementBySeven() // returns a value of 7
+incrementByTen() // returns a value of 40
+```
 
 # Reference
 

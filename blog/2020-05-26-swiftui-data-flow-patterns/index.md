@@ -17,7 +17,31 @@ Parent 의 값을 전달받는 가장 기본적인 방법으로는 Child View �
 SwiftUI 에서 `@State` 를 선언한 property 의 값이 바뀔 때마다 var body: some View 에 선언된 자식 View 들을 새로 그립니다.
 State 가 바뀔 때 마다 자식 View 들을 매번 새로 생성해서 갱신된 데이터를 보여줄 수 있습니다.
 
-<!-- {% gist 555422910a3eed7858c97ee513af38df from_parent_to_child_initializer.swift %} -->
+```swift
+struct ParentView: View {
+    @State var items: [Item]
+
+    var body: some View {
+        List(items) { item in
+            ChildView(item: item)
+        }
+    }
+}
+
+struct ChildView: View {
+    let item: Item
+
+    var body: some View {
+        VStack {
+            Text(item.name)
+            /*...*/
+        }
+        .onTapGesture {
+            print(self.item.name)
+        }
+    }
+}
+```
 
 ## Environment
 
@@ -28,10 +52,56 @@ State 가 바뀔 때 마다 자식 View 들을 매번 새로 생성해서 갱신
 `.environment()` 를 통해서 특정 자식 View Tree 에는 다른 환경을 적용할 수 있습니다.
 예를 들면 자식 A, 자식 B 이 있을 때 자식 A 에 `.environment(\.colorScheme, .light)` 와 같이 선언하면 자식 A 의 Subtree 는 모두 light 적용됩니다.
 기존에 존재하는 값들 외에도 `EnvironmentKey` 와 `EnvironmentValues` 를 이용하여 custom 값을 저장할 수도 있습니다.
-<!-- {% gist 555422910a3eed7858c97ee513af38df from_parent_to_child_environment_custom_key.swift %} -->
+
+```swift
+// 출처: https://swiftwithmajid.com/2019/08/21/the-power-of-environment-in-swiftui/
+struct ItemsPerPageKey: EnvironmentKey { /*...*/}
+
+extension EnvironmentValues {
+    var itemsPerPage: Int {
+        get { self[ItemsPerPageKey.self] }
+        set { self[ItemsPerPageKey.self] = newValue }
+    }
+}
+
+struct RelatedProductsView: View {
+    @Environment(\.itemsPerPage) var count
+}
+```
 
 `@EnvironmentObject` 를 이용하면 `ObservableObject` 을 추가하여 Scope 를 만들 수도 있습니다.
-<!-- {% gist 555422910a3eed7858c97ee513af38df from_parent_to_child_environment_object.swift %} -->
+
+```swift
+class ItemStore: ObservableObject { /*...*/ }
+class ItemDetailStore: ObservableObject { /*...*/ }
+
+struct ContentView : View {
+    @EnvironmentObject var store: ItemStore
+
+    var body: some View {
+        NavigationView {
+            List {
+                ForEach(self.store.items) { item in
+                    // ItemDetailView 내에서는 ItemStore, ItemDetailStore 에 대해
+                    // EnvironmentObject 로 접근이 가능합니다.
+                    ItemDetailView()
+                        .environmentObject(ItemDetailStore(item: item))
+                }
+            }
+        }
+    }
+}
+
+struct ItemDetailView: View {
+    // ItemDetailView 는 ItemView 에 포함되므로 ItemStore 에도 접근이 가능하다.
+    @EnvironmentObject var store: ItemStore
+    @EnvironmentObject var detailStore: ItemDetailStore
+
+    var body: some View {
+        /*...*/
+    }
+}
+```
 
 위 예제와 같이 `ObservableObject` 를 주입하여 주입한 Scope 아래 View 들은 해당 객체에 접근이 가능합니다.
 
@@ -41,20 +111,104 @@ State 가 바뀔 때 마다 자식 View 들을 매번 새로 생성해서 갱신
 
 부모 Component 가 자식 Component 에게 Callback 을 전달하여 데이터에 접근하는 방법이 있습니다.
 
-<!-- {% gist 555422910a3eed7858c97ee513af38df from_child_to_parent_callback.swift %} -->
+```swift
+struct ParentView: View {
+    var body: some View {
+        ItemSelector(
+            items: [],
+            onConfirmed: { selectedItems in
+                // Do something with selected items.
+            }
+        )
+    }
+}
+
+// Confirm Button 을 눌렀을 때 선택한 Item 들만 Parent 에게 전달할 수 있다.
+struct ItemSelector: View {
+    let items: [Item]
+    let onConfirmed: (Set<Item>) -> ()
+    @State var selectedItems: Set<Item> = []
+
+    var body: some View {
+        VStack {
+            List(self.items, id: \.name) { item in
+                ItemRow(
+                    item: item,
+                    isSelected: self.selectedItems.contains(item)
+                )
+                .onTapGesture { /* Insert if it already exists or remove if it doesn't exist. */ }
+            }
+            Button(
+                action: { self.onConfirmed(self.selectedItems) },
+                label: { Text("Confirm") }
+            )
+        }
+    }
+}
+```
 
 ## Binding
 
 `@Binding` property wrapper 를 이용하여 부모에게 데이터를 전달하는 방법이 있습니다.
 부모의 `@State` property 와 `@Binding` 을 이용하여 자식 View 를 다시 그려 갱신된 데이터를 보여주는 방법입니다.
-<!-- {% gist 555422910a3eed7858c97ee513af38df from_child_to_parent_binding.swift %} -->
+
+```swift
+struct ScoreBoard: View {
+    @State var scoreA: Int
+    @State var scoreB: Int
+
+    var body: some View {
+        VStack {
+            Text("Total: \(scoreA + scoreB)")
+            ScoreController(score: $scoreA)
+            ScoreController(score: $scoreB)
+        }
+    }
+}
+
+struct ScoreController: View {
+    // 부모 ScoreBoard 의 @State property 를 변경시켜서 View 를 새로 그립니다.
+    @Binding var score: Int
+
+    var body: some View {
+        HStack {
+            Text("\(score)")
+            Button(
+                action: { self.score -= 1 },
+                label: { Text("-") }
+            )
+            Button(
+                action: { self.score += 1 },
+                label: { Text("+") }
+            )
+        }
+    }
+}
+```
 
 위와 같은 예제는 변경된 데이터를 바로 보여주고 싶지 않은 경우엔 적절하지 않을 수 있습니다.
 확인 버튼을 눌렀을 때 View 를 새로 그리고 싶은 경우 `@State` 를 사용하지 않고 Class 를 이용하는 방법도 있습니다.
 아래 코드와 같이 score 값에 따라 View 를 갱신하는 로직을 Class 안에 숨길 수 있습니다.
 store 내에 score 값은 갱신했지만 View 를 새로 그리는 로직은 Store 내에서 정할 수 있습니다.
 
-<!-- {% gist 555422910a3eed7858c97ee513af38df from_child_to_parent_binding_using_class.swift %} -->
+```swift
+struct ScoreBoard: View {
+    // @Published property wrapper 를 이용하여
+    // `음수인 score 에 대해서는 화면을 갱신하지 않는다.` 와 같은 로직을 숨길 수 있다.
+    @ObservedObject var store: ScoreStore
+
+    var body: some View {
+        VStack {
+            ScoreController(
+                score: .init(
+                    get: { self.store.score },
+                    set: { self.store.score = $0 }
+                )
+            )
+        }
+    }
+}
+```
 
 ## Preference
 
@@ -62,7 +216,24 @@ store 내에 score 값은 갱신했지만 View 를 새로 그리는 로직은 St
 자식 View 는 Preference 값을 등록하고 부모는 `onPreferenceChange` 를 통하여 자식 View 들의 Preference 값 변화를 감지할 수 있습니다.
 같은 Prefenece Key 값을 사용하는 모든 자식들의 Preference 값에 차례대로 접근합니다.
 
-<!-- {% gist 555422910a3eed7858c97ee513af38df from_child_to_parent_custom_preference.swift %} -->
+```swift
+// 값을 대입하는 경우 제일 마지막 Preference 의 값이 반영됩니다.
+struct CustomPreferenceKey: PreferenceKey {
+    static var defaultValue: String = "default string"
+    static func reduce(value: inout String, nextValue: () -> String) {
+        value = nextValue()
+    }
+}
+
+// 모든 Child 의 Preference 를 모을 수 있습니다.
+struct CustomPreferenceKey: PreferenceKey {
+    static var defaultValue: [String] = ["default string"]
+    static func reduce(value: inout [String], nextValue: () -> [String]) {
+        value = value + nextValue()
+    }
+}
+```
+
 위의 예제 코드에서 첫 번째 Preference 는 모든 자식을 만날 때마다 값을 갱신하기 때문에 제일 마지막 자식 Preference 가 저장됩니다.
 그래서 첫째 자식 View 의 Preference 가 변경되었다 하더라도 마지막 View 의 Preference 가 변경되지 않았다면 부모의 `onPreferenceChange` 가 불리지 않습니다.
 모든 자식의 Preference 를 모아 어떤 값을 쓸 지 정하고 싶다면 예제 코드에서 아래 Preference Key 처럼 리스트를 이용하면 모든 자식의 Preference 변화를 감지할 수 있습니다.

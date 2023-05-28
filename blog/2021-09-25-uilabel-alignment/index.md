@@ -42,7 +42,14 @@ tags: [label, alignment]
 몇몇 사람들은 디자인의 90%가 타이포그래피 라고 합니다. 그만큼 사람들한테 글을 잘 읽히게 하려면 줄 간격도 중요합니다.
 그래서 많은 디자이너 분들이 lineHeight 를 수정하여 가독성을 좋게 만드려고 노력합니다.
 
-<!-- {% gist 0a27e87a4a14539dbea3f931ec8eeedd label-with-custom-line-height.swift %} -->
+```swift
+let style = NSMutableParagraphStyle()
+style.maximumLineHeight = lineHeight
+style.minimumLineHeight = lineHeight
+let attributes: [NSAttributedString.Key: Any] = [.paragraphStyle: style]
+let attrString = NSAttributedString(string: text, attributes: attributes)
+self.attributedText = attrString
+```
 
 iOS 에서는 위와 같이 코드를 작성하여 원하는 lineHeight 를 설정할 수 있습니다.
 
@@ -53,7 +60,16 @@ iOS 에서는 위와 같이 코드를 작성하여 원하는 lineHeight 를 설�
 근데 위 이미지와 같이 문자들이 중앙정렬 되는 게 아니라 아랫부분에 붙어 있어서 예상치 못하게 상단 부분이 비어 보일 수 있습니다.
 여러 줄의 UILabel 을 화면 중앙에 정렬해도 상단이 비어보이면서 중앙 정렬이 아닌 것처럼 보일 수 있습니다.
 
-<!-- {% gist 0a27e87a4a14539dbea3f931ec8eeedd single-attributed-text-with-different-font-size.swift %} -->
+```swift
+// 출처: https://stackoverflow.com/questions/19487369/center-two-fonts-with-different-different-sizes-vertically-in-an-nsattributedstr
+let smallStr = "Hello"
+let bigStr = "World"
+let fullStr = NSMutableAttributedString(string: "\(smallStr) \(bigStr)")
+let smallStrRange = NSMakeRange(0, smallStr.count)
+let bigStrRange = NSMakeRange(smallStr.count + 1, bigStr.count)
+fullStr.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 28)], range: smallStrRange)
+fullStr.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 42)], range: bigStrRange)
+```
 
 또 다른 상황으로 NSAttributedText 에 다른 Font 크기를 지정하면 baseline 을 기준으로 정렬됩니다.
 
@@ -73,7 +89,14 @@ iOS 에서는 위와 같이 코드를 작성하여 원하는 lineHeight 를 설�
 
 baseline offset 은 Baseline 으로 부터 얼마나 떨어져 있는 지를 나타냅니다. 설정한 lineHeight 에서 Font 크기를 빼고 나누기 2 한 값을 offset 으로 설정하면 될 것 같습니다.
 
-<!-- {% gist 0a27e87a4a14539dbea3f931ec8eeedd baseline-offset-for-center-align.swift %} -->
+```swift
+// offset 을 (custom line height - font.lineHeight) / 2 로 줘야 할 것 같지만
+// (custom line height - font.lineHeight) / 4 를 줘야 중앙에 배치한다.
+let attributes: [NSAttributedString.Key: Any] = [
+    .paragraphStyle: style,
+    .baselineOffset: (lineHeight - font.lineHeight) / 4
+]
+```
 
 하지만 실제로는 나누기 2 가 아닌 나누기 4 를 해야 중앙 정렬이 됩니다. (내부적으로 scale 계산을 하는 건지, 여러 블로그글을 참고했으나 아직까지 정확한 사유를 파악하지 못했습니다.)
 
@@ -100,11 +123,35 @@ Font 크기가 다른 두 UILabel 상단을 맞췄음에도 불구하고 왼쪽 
 
 왼쪽 이미지 처럼 UILabel 의 상단을 맞추는 것이 아닌 CapHeight 선을 맞추면 오른쪽 그림처럼 깔끔하게 해결할 수 있습니다.
 
-<!-- {% gist 0a27e87a4a14539dbea3f931ec8eeedd capheight-alignment-with-difference-between-ascenders.swift %} -->
+```swift
+// 두 UILabel 의 상단에 있는 빈공간의 차를 `Minute` UILabel top constraint 값으로 넣어준다.
+minuteLabelTopConstraint.constant =
+  (twentyFiveLabel.font.ascender - twentyFiveLabel.font.capHeight)
+  - (minuteLabel.font.ascender - minuteLabel.font.capHeight)
+```
 
 가장 쉬운 구현으로는 위 코드 처럼 두 UILabel 의 상단을 맞추던 AutoLayout Constraint 에 (Ascender - CapHeight) 차이를 설정하는 방법이 있습니다.
 
-<!-- {% gist 0a27e87a4a14539dbea3f931ec8eeedd capheight-alignment-changing-meaning-of-top.swift %} -->
+```swift
+// 출처: https://www.atimi.com/cap-height-alignment-for-ios-auto-layout/
+// View "top alignment" 의 정의를 바꾼다. cap height 를 이용하여 쉽게 해결할 수 있다.
+override var alignmentRectInsets: UIEdgeInsets {
+    var insets = UIEdgeInsets.zero
+    if alignCapHeight {
+        insets.top = round(font.ascender - font.capHeight)
+    }
+    return insets
+}
+
+// Boolean 을 정의하여 사용자가 쉽게 껐다켰다 할 수 있게 개발할 수 있다.
+var alignCapHeight: Bool = false {
+    didSet {
+        // As the alignment method is only called during layout,
+        // We also need to ensure that Auto Layout is rerun whenever the property changes.
+        setNeedsUpdateConstraints()
+    }
+}
+```
 
 다른 방법으로는 UIView 의 `alignmentRectInsets` 값을 이용하는 방법입니다.
 값을 override 하면서 View 내부에서 top 에 대한 정의를 바꿉니다.
@@ -130,13 +177,45 @@ iOS 에서는 실제로 Text 를 그릴 때 이러한 Fractional part(pxiel 영�
 글자들은 Baseline 위에서 그려지는데, 이 Baseline 은 pixel 영역이라서 Fractional part 를 pixel 영역에 맞게 처리해야 합니다.
 근데 여기서 round 를 써서 실제 글자가 차지하는 pixel 보다 작아지면 잘릴 수도 있으니 ceil 을 이용하여 한 픽셀 정도 넉넉하게 잡아줍니다.
 
-<!-- {% gist 0a27e87a4a14539dbea3f931ec8eeedd capheight-alignment-with-more-accurate.swift %} -->
+```swift
+// ceil(lineHeight) = ceil(ascender) + ceil(descender) 는 항상 성립하지 않는다.
+// 일반적으로, 많은 글자들이 descender 에 우선순위를 가진다. 그래서 `ceil(lineHeight) – ceil(-descender) – round(capHeight)` 계산식을 이용한다.
+override var alignmentRectInsets: UIEdgeInsets {
+    var insets = UIEdgeInsets.zero
+    // rounding 은 pixel boundary 에서 발생하므로 정확한 계산을 위해 screen scaling 을 고려한다.
+    if alignCapHeight, let scale = window?.screen.scale {
+        insets.top = (
+            ceil(font.lineHeight * scale)
+            – ceil(-font.descender * scale)
+            – round(font.capHeight * scale)
+        ) / scale
+    }
+    return insets
+}
+```
 
 ## Baseline Alignment
 
 또한, iOS 에서 firstBaselineAnchor, lastBaselineAnchor 를 Auto Layout 으로 제공하여 Baseline 에 맞게 정렬할 수 있습니다.
 
-<!-- {% gist 0a27e87a4a14539dbea3f931ec8eeedd baseline-anchor.swift %} -->
+```swift
+// 출처: https://milyo-codingstories.tistory.com/51
+let baseLabel = UILabel()
+baseLabel.text = "Base Label\nBase Label\nBase Label"
+baseLabel.lineBreakMode = .byWordWrapping
+baseLabel.numberOfLines = 0
+NSLayoutConstraint.activate([
+    baseLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 8),
+])
+
+let newLabel = UILabel()
+newLabel.text = "new"
+NSLayoutConstraint.activate([
+    newLabel.leadingAnchor.constraint(equalTo: baseLabel.trailingAnchor,constant: 8),
+    // Baseline 정렬
+    newLabel.topAnchor.constraint(equalTo: baseLabel.firstBaselineAnchor)
+])
+```
 
 ![base-label-baselineanchor](./base-label-baselineanchor.png)
 

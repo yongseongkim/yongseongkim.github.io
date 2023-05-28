@@ -3,6 +3,8 @@ title: SwiftUI - Layout System
 tags: [swiftui, swift]
 ---
 
+import swiftUILayoutSystem from "./screen-without-safearea.png";
+
 최근에 SwiftUI 를 이용해 앱을 만들어 보면서 알게 된 사실들을 정리해보려 합니다. 이번 글은 View 사이즈를 계산하고 배치하는 방법과 과정에 대해 정리해봤습니다.
 
 <!--truncate-->
@@ -10,23 +12,62 @@ tags: [swiftui, swift]
 # Layout Process
 
 1. 먼저 부모 View 는 자식 View 에게 가능한 영역의 크기를 알려줍니다. 가장 최상위 View 에서는 safe area 를 제외한 스크린 크기가 되겠네요.
-   ![SwiftUI Layout System](./screen-without-safearea.png)
+   <img src={swiftUILayoutSystem} width="320" />
+
    출처: [hareenlaks's blog](https://kean.github.io/post/swiftui-layout-system)
 
 2. 부모 View 가 알려준 영역을 기반으로 자식 View 는 자신의 크기를 계산합니다.
 3. 자식 View 는 자신의 크기를 부모 View 에게 알려주고 부모는 자식 View 를 자신의 영역에서 배치합니다.
-   <!-- {% gist 02f863d0aa0aa52dcda49a9bf6b8ed7d layout-process-step2.swift %} -->
+
+```swift
+class ContentView: View {
+    var body: some View {
+        Text("Hello World!")
+    }
+}
+
+// Parent 크기가 `Hellow World!` 를 보여줄 수 있는 크기보다 크다면 Text View 사이즈는
+// `Hellow World!` 를 담을 정도의 크기만 가집니다.
+// 하지만 Parent 크기가 그정도로 크지 않다면 Text View 크기도 Parent 의 크기를 따라갑니다.
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            ContentView()
+            ContentView()
+                .previewLayout(.fixed(width: 50, height: 30))
+        }
+    }
+}
+```
 
 과정 2번에서 자식 View 들은 크기를 어떻게 정할까요?
 
 # Size Calculation
+
+사이즈를 계산하는 방식에는 Fit 과 Fill 이 있습니다.
 
 ## Fit vs. Fill
 
 View 가 크기를 계산하는 방식은 두 가지로 나눌 수 있습니다. 컨텐츠를 기반으로 계산하는 Fit 과 부모로 부터 전달받은 영역을 채우는 Fill 이 있습니다.
 컨텐츠를 기반으로 계산하는 Fit 방식으로는 Text, Stack 등이 있고 가능한 영역을 채우는 Fill 방식으로는 GeometryReader, Spacer 등이 있습니다.
 
-<!-- {% gist 02f863d0aa0aa52dcda49a9bf6b8ed7d fit-fill-in-root.swift %} -->
+```swift
+// 여기서 RootView 는 Text 에게 가능한 영역의 크기는 Screen 으로 알려줍니다.
+// Text 는 컨텐츠 문자열 만큼의 크기를 부모에게 전달합니다.
+// 부모 View 는 전달받은 크기를 기반으로 중앙 정렬합니다.
+class RootView: View {
+    var body: some View {
+        Text("test")
+    }
+}
+
+// Color 이외에 다른 View 가 없다면 가능한 영역을 전부 채웁니다.
+class RootView: View {
+    var body: some View {
+        Color.red
+    }
+}
+```
 
 ![Text in Root](./text-in-root.png)
 ![Color in Root](./color-in-root.png)
@@ -36,7 +77,20 @@ Image 는 `resizable` modifier 에 따라 동작이 다릅니다. `resizable` �
 큰 이미지의 경우 스크린 영역을 벗어날 수 있습니다.
 하지만 `resizable` modifier 가 붙으면 가능한 영역 안에서 컨텐츠를 보여 줍니다.
 
-<!-- {% gist 02f863d0aa0aa52dcda49a9bf6b8ed7d compare-with-or-without-resizable.swift %} -->
+```swift
+struct ContentView: View {
+    var body: some View {
+        Image(systemName: "xmark")
+    }
+}
+
+struct ContentView: View {
+    var body: some View {
+        Image(systemName: "xmark")
+            .resizable()
+    }
+}
+```
 
 ![Preview of Image without resizable](./image-preview-without-resizable.png)
 ![Preview of Image with resizable](./image-preview-with-resizable.png)
@@ -53,14 +107,42 @@ HSack, VStack 내에 View 들은 크기를 계산하는 과정에서 서로 영�
    - 예를 들어 `HStack { Text, Image, Text }` 와 같은 경우 Image 는 이미지 크기가 정해져 있으니 크기를 고정할 수 있습니다.
      이후 우선순위가 높은 Text View 크기를 먼저 정하고 차례대로 반복합니다. 위 예에서는 우선순위가 같으니 같은 크기를 가집니다.
 3. 모든 자식 View 의 크기가 정해지면 배치 옵션에 따라 배치합니다.
-   <!-- {% gist 02f863d0aa0aa52dcda49a9bf6b8ed7d text-image-text-in-stack.swift %} -->
+
+```swift
+struct ContentView: View {
+    var body: some View {
+        HStack(spacing: 5) {
+            Text("Loremipsumdolorsitamet,consecteturadipiscingelit.Praesent et ipsum nulla.")
+                .border(Color.green)
+            Image(systemName: "xmark")
+                .border(Color.red)
+            Text("Loremipsumdolorsitamet")
+                .border(Color.blue)
+        }
+    }
+}
+```
 
 ![Compare views in stack](./compare-text-image-text-in-stack.png)
 컨텐츠 양은 다르지만 정해진 영역에서 같은 크기를 같는 Text
 
 Stack 내에 Fill 타입의 View 가 존재하면 Stack 의 크기도 Parent 를 가득 채우게 크기가 결정됩니다.
 
-<!-- {% gist 02f863d0aa0aa52dcda49a9bf6b8ed7d fit-and-fill-views-in-stack.swift %} -->
+```swift
+struct ContentView: View {
+    var body: some View {
+        HStack(spacing: 5) {
+            Text("None")
+                .border(Color.blue)
+            // GeometryReader 는 Fill 타입의 View
+            GeometryReader { geometry in
+                Text("None")
+            }
+            .border(Color.red)
+        }
+    }
+}
+```
 
 ![Fit and Fill views in stack](./fit-fill-in-stack.png)
 
@@ -70,7 +152,29 @@ Stack 내에 Fill 타입의 View 가 존재하면 Stack 의 크기도 Parent 를
 가장 기본적인 배치로는 Stack Initializer 에서 alignment 파라미터
 혹은 `frame(width: CGFloat, height: CGFloat, alignment: Alignment)` 에서 어떻게 배치할지를 설정할 수 있습니다.
 
-<!-- {% gist 02f863d0aa0aa52dcda49a9bf6b8ed7d alignment-with-stack-initializer.swift %} -->
+```swift
+// 각 Text view 들은 다른 크기를 갖고 다른 baseline 을 갖습니다.
+// leading, center, trailing 등 option 도 있지만
+// Stack 에는 firstTextBaseline, lastTextBaseline option 도 있습니다.
+struct ContentView: View {
+    var body: some View {
+        VStack(alignment: .trailing, spacing: 0) {
+            HStack(alignment: .lastTextBaseline) {
+                Text("Live")
+                    .font(.caption)
+                    .border(Color.red)
+                Text("long")
+                    .border(Color.red)
+                Text("and")
+                    .font(.title)
+                    .border(Color.red)
+            }
+            .border(Color.blue)
+            Color.gray
+        }
+    }
+}
+```
 
 ![Alignment last text baseline](./alignment-last-text-baseline.png)
 
@@ -78,7 +182,21 @@ Stack 내에 Fill 타입의 View 가 존재하면 Stack 의 크기도 Parent 를
 `alignmentGuide()` 는 바꾸고 싶은 alignment guide 와 새로운 alignment 를 정하는 closure 를 필요로 합니다.
 closure 내에서 view 의 width, height, edge 정보를 가진 `ViewDimension` 객체에 접근하여 새롭게 배치할 수 있습니다.
 
-<!-- {% gist 02f863d0aa0aa52dcda49a9bf6b8ed7d custom-alignment-guide.swift %} -->
+```swift
+struct ContentView: View {
+    var body: some View {
+        VStack(alignment: .leading) {
+            ForEach(0..<4) { idx in
+                Text("Index: \(idx)")
+                    .alignmentGuide(.leading) { _ in CGFloat(idx) * -30 }
+            }
+            Text("Out of Index")
+                .alignmentGuide(.leading) { dimension in dimension.width }
+        }
+        .border(Color.red)
+    }
+}
+```
 
 ![Example of custom alignmentGuide](./custom-alignment-guide.png)
 

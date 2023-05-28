@@ -28,7 +28,17 @@ URL(Uniform Resource Locator) 은 `scheme://host:port/path?query` 의 형태로 
 예를 들어 메신저로 쿠폰을 선물하여 링크를 눌렀을 때 쿠폰화면을 보여주면서 선물 받은 쿠폰 코드를 자동으로 입력하는 기획이 나왔습니다.
 `custom-app-scheme://coupons?code=오픈기념이벤트` 로 path 는 쿠폰 화면 이동을, query 로는 쿠폰 코드를 전달하여 사용자 경험을 개선할 수 있습니다.
 
-<!-- {% gist 7acbeacc76b190a8445768bdcb58787a URLHandler.swift %} -->
+```swift
+switch url.host?.lowercased() {
+  case "coupons":
+    return actionableItem.ensureLoggedIn()
+            .onStep { mainActionableItem -> /* 로그인 되었는지 확인하여 메인 화면을 띄운다. */ }
+            .onStep { menuActionableItem -> /* 쿠폰화면을 띄운다 */ }
+            .onStep { couponActionableItem -> /* 입력창에 쿠폰 번호를 채운다. */ }
+  case "...":
+    /* Handle cases. */
+}
+```
 
 이렇게 개발자들이 정의해놓은 URL 에 대해서만 사용자를 원하는 화면으로 도달하게 할 수 있습니다.
 정의되어 있지 않은 경우에는 개발자가 URL 에 대한 처리를 추가하여 앱을 업데이트해야 합니다.
@@ -52,6 +62,40 @@ Universal Link 는 URL 진입 시 URL 에 맞는 앱이 설치되어 있으면 �
 출처: [WWDC 2020 What's new in Universal Link](https://developer.apple.com/videos/play/wwdc2020/10098/)
 Universal Link 를 활성화 시키기 위해서는 앱에 어떤 도메인을 쓸 것인지 명시해야 합니다.
 시스템은 앱을 다운 받아 설치할 때, 등록된 도메인의 AASA 파일을 파싱하여 Universal Link 를 활성화 시킵니다.
+
+```json
+// AASA JSON Example
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appIDs":[
+          "A1B2C3D4E5.com.example.app",
+          "F1G2H3I4J5.com.example.app"
+        ],
+        "components":[
+          {
+            "/": "/*/order/"
+          },
+          {
+            "/": "/taco/*",
+            "?":{ "cheese":"?*" }
+          }
+          {
+            "#": "coupon-1???",
+            "exclude": true
+          },
+          {
+            "/": "",
+            "#": "coupon-????"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
 
 사용자가 앱스토어에서 앱을 다운받아 설치하면 시스템에서 앱에 등록된 도메인의 AASA 파일을 다운, 파싱하여 Universal Link 를 활성화 시킵니다.
 시스템은 AASA 의 업데이트 된 내용을 반영하기 위해 주기적으로 AASA 파일을 다운로드 합니다.
@@ -82,15 +126,71 @@ Link Data 설정에서는 `$deeplink_path` 를 이용하여 사용자를 어디�
 
 앱 개발자는 앱이 어떤 URL 을 통해서 열렸는지 처리할 수 있습니다.
 Branch SDK 에게 앱 관련된 이벤트를 알려주면 해당 URL 에 맞는 정보들을 내려주고 앱 개발자는 그 정보에 맞춰 사용자를 원하는 화면으로 이동시킵니다.
-<!-- {% gist 7acbeacc76b190a8445768bdcb58787a redirect.js %} -->
+
+```js
+window.onload = function () {
+  window.top.location = validateProtocol(
+    "tada-rider://coupons?link_click_id=933889898695179390"
+  );
+  setTimeout(function timeout() {
+    if (document.webkitHidden || document.hidden) {
+      return;
+    }
+    // 유효한 링크, 버전 체크한 후 다른 페이지로 이동한다.
+    if (isSafari12Dot3OrGreater()) {
+      if (window.confirm("Open in App Store?")) {
+        window.top.location = validateProtocol(
+          "https://tadatada-alternate.test-app.link/6us6DGSmg3?__branch_flow_type=viewapp&__branch_flow_id=933889898728733824&_t=933889898695179390"
+        );
+      }
+    } else {
+      window.top.location = validateProtocol(
+        "https://tadatada-alternate.test-app.link/6us6DGSmg3?__branch_flow_type=viewapp&__branch_flow_id=933889898728733824&_t=933889898695179390"
+      );
+    }
+  }, 250);
+};
+```
 
 자바스크립트는 URL 이 유효한지 파악하고 잠시 후 https://tadatada-alternate.test-app.link/6us6DGSmg3?__branch_flo... 로 이동시킵니다.
 Redirect 된 URL 에서 파라미터들은 사용자가 어떤 경로로 유입됐는지 파악하기 위한 값으로 추정됩니다. Redirect 된 URL 은 사용자를 다시 앱스토어로 이동시킵니다.
-<!-- {% gist 7acbeacc76b190a8445768bdcb58787a curl_example_ios.sh %} -->
+
+```bash
+curl \
+  -i \
+  --user-agent "Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148" \
+  https://tadatada-alternate.test-app.link/6us6DGSmg3\?__branch_flow_type\=viewapp\&__branch_flow_id\=...\&_t\=...
+# HTTP/2 307
+# location: itms-apps://apps.apple.com/app/id1422751774
+# server: openresty
+# date: Fri, 18 Jun 2021 05:57:09 GMT
+# x-powered-by: Express
+# set-cookie: _s=BWZNsu%2Buq5%2FpiBuSvq%2BnG4sHM4PMjC9uHvkp3nVZoXCqsJFF0keX%2BDLaMDCVWt5b; Max-Age=31536000; Domain=.test-app.link; Path=/; Expires=Sat, 18 Jun 2022 05:57:09 GMT
+# x-cache: Miss from cloudfront
+# via: 1.1 6417e2f7bfaa7aa3312c9889248048c4.cloudfront.net (CloudFront)
+# x-amz-cf-pop: ICN54-C3
+# x-amz-cf-id: dRzKRp0aI0dyjdjbLIUkfO05plWxKYyRbkuIWXHOvOGpj4lDSCha1w==
+```
 
 https://tadatada.test-app.link/6us6DGSmg3 를 PC 에서 접속하면 설정해놓은 대표 홈페이지로 바로 이동시킵니다.
 
-<!-- {% gist 7acbeacc76b190a8445768bdcb58787a curl_example_pc.sh %} -->
+```bash
+curl \
+  -i \
+  --user-agent "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36" \
+  https://tadatada.test-app.link/6us6DGSmg3
+# HTTP/2 307
+# location: https://tadatada.com/?_branch_match_id=940263651360554710&utm_medium=marketing
+# server: openresty
+# date: Fri, 18 Jun 2021 05:52:36 GMT
+# x-powered-by: Express
+# set-cookie: _s=M1lGlTim6AxpMnxz8MbAf9xPim3iWchdngQ5h3bxIiHwbjKbSHV%2BhaQxl%2FvWA%2B8E; Max-Age=31536000; Domain=.test-app.link; Path=/; Expires=Mon, 04 Jul 2022 16:02:30 GMT; Secure; SameSite=None
+# last-modified: Sun, 04 Jul 2021 16:02:30 GMT
+# x-cache: Miss from cloudfront
+# via: 1.1 fd68ec93b50a400ce670e5ce6a8134ba.cloudfront.net (CloudFront)
+# x-amz-cf-pop: ICN55-C1
+# x-amz-cf-id: lL-kCf8mMMKiVID6exN_-vbPgx5T1-I8OaMccsD271DF9uuwx3ywPg==
+```
 
 # Conclusion
 

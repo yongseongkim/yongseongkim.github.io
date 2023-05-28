@@ -83,6 +83,7 @@ const config = {
       },
       prism: {
         theme: darkCodeTheme,
+        additionalLanguages: ["powershell", "swift", "bash"],
       },
     }),
 };

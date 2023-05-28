@@ -73,7 +73,12 @@ d = b + c
 
 ### XML
 
-<!-- {% gist f74c8f1b537985f908586ca448a5b73c text_technique_example_xml.xml %} -->
+```xml
+<img></img> -> 0
+<img/> -> 1
+<favorite><fruit>SOMETHING</fruit></favorite> -> 0
+<fruit><favorite>SOMETHING</favorite></fruit> -> 1
+```
 
 위와 같이 데이터에 영향을 주지 않는 일정한 규칙을 통해 메시지를 나타낼 수 있습니다.
 
@@ -94,7 +99,14 @@ d = b + c
 ![Stegenography Image Technique Example - Insertion](./img-technique-wechall-insertion.png)
 
 단순히 이미지만 보면 예전에 인기를 끌었던 표지입니다.
-<!-- {% gist f74c8f1b537985f908586ca448a5b73c img_technique_example_python_insertion_1.py %} -->
+
+```python
+with open('./ghostbusters.png', 'rb') as f:
+    result = f.read()
+    b = bytearray(result)
+```
+
+위 이미지를 bytearray 로 읽어오는 파이썬 코드를 작성해봅니다.
 
 ```
 (생략)
@@ -113,7 +125,17 @@ d = b + c
 여기서 자세히 보면 JPEG Footer Signature 인 `0xff 0xd9` 값을 찾을 수 있습니다. 파일이 끝났다는 signature 이후에도 많은 데이터가 있는 것으로 보아 이 부분만을 추출해봅니다.
 이후에 바로 이어지는 `0x50 0x4B 0x3 0x4` 는 ZIP Header Signature 이기도 합니다.
 
-<!-- {% gist f74c8f1b537985f908586ca448a5b73c img_technique_example_python_insertion_2.py %} -->
+```python
+another = None
+for i in range(0, len(b)):
+    if hex(b[i]) == '0x50':
+        if hex(b[i + 1]) == '0x4b':
+            if hex(b[i + 2]) == '0x3':
+                if hex(b[i + 3]) == '0x4':
+                    another = b[i:]
+with open('./ghosterbusters-extract.zip', 'wb') as f:
+    f.write(another)
+```
 
 파이썬을 이용하여 JPEG 이후 데이터를 ZIP 파일로 저장합니다. 이후 압축을 풀면 'solution.txt' text file 을 얻을 수 있습니다.
 `solution.text` 에는 `CBNSPEBAEGHA` 와 같은 코드명이 담겨있네요.
@@ -129,14 +151,31 @@ d = b + c
 
 위 그림만 보면 전자제품의 부품 같네요. 이 이미지를 OpenCV 를 이용하여 풀어보겠습니다.
 
-<!-- {% gist f74c8f1b537985f908586ca448a5b73c img_technique_example_lsb.py %} -->
+```python
+import cv2
+import numpy as np
+
+img = cv2.imread('./lsb.png', cv2.IMREAD_COLOR)
+idx = 0
+bit = 1 << idx
+# Blue
+img[:, :, 0] = np.bitwise_and(img[:, :, 0], np.full([img.shape[0], img.shape[1]], bit))
+# Green
+img[:, :, 1] = np.zeros([img.shape[0], img.shape[1]])
+# Red
+img[:, :, 2] = np.zeros([img.shape[0], img.shape[1]])
+img[img == bit] = 255
+cv2.imwrite('./lsb-modified.png', img)
+```
 
 해당 이미지를 읽어 RGB 에 해당하는 LSB 와 AND 연산을 하는 코드입니다.
 
-BLUE 0 번 비트와 AND 연산한 결과
+아래 이미지는 BLUE 0 번 비트와 AND 연산한 결과입니다.
+
 ![Stegenography Image Technique Example - LSB - 0](./img-technique-wechall-lsb-idx0.png)
 
-BLUE 1 번 비트와 AND 연산한 결과
+아래 이미지는 BLUE 1 번 비트와 AND 연산한 결과입니다.
+
 ![Stegenography Image Technique Example - LSB - 0](./img-technique-wechall-lsb-idx1.png)
 
 위와 같이 메세지가 숨겨져 있는 것을 볼 수 있습니다.
