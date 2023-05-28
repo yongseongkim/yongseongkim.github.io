@@ -50,7 +50,7 @@ Supervised Learning Policy Network 는 바둑판의 상태를 입력으로 다�
 
 ![distribution](./next-step-distribution.png)
 
-출처: Mastering the game of Go with deep neural networks and tree search
+출처: [Mastering the game of Go with deep neural networks and tree search](https://www.nature.com/articles/nature16961)
 
 전문가들의 기보를 기반으로 트레이닝하여 다음 수를 예측하는 데 대략 57% 의 정확도를 보였다고 합니다.
 
@@ -79,14 +79,14 @@ Value Network 는 바둑판의 상태를 보고 승률을 예측합니다.
 
 ![Policy Network, Value network 의 Output](./policy-value-network-output.png)
 
-출처: Mastering the game of Go with deep neural networks and tree search
+출처: [Mastering the game of Go with deep neural networks and tree search](https://www.nature.com/articles/nature16961)
 
 KGS 데이터로 학습시킨 Value Network 는 일반적으로 승률을 계산하기보다는 그전 결과들을 기억하여 트레이닝 데이터에서는 MSE 가 0.19이었지만 테스트 데이터에서는 0.37이 나왔습니다.
 이러한 Overfitting 문제를 피하고자 RL Policy Network 끼리 경기한 3,000만 플레이 데이터를 모았다고 합니다.
 
 ![Value Network 성능 비교](./value-network-mse-compare.png)
 
-출처: Mastering the game of Go with deep neural networks and tree search
+출처: [Mastering the game of Go with deep neural networks and tree search](https://www.nature.com/articles/nature16961)
 
 위에 표에서 X 축 오른쪽으로 갈수록 경기가 많이 진행됐음을 의미한다. 경기가 진행되면 될수록 초보자도 승패를 알 수 있으니 대체적으로 error 가 낮아집니다.
 하지만 여기서 Policy Network 로 예측한 승률과 Value Network 의 승률 계산이 크게 차이 나지 않음을 볼 수 있습니다.
@@ -98,7 +98,8 @@ Monte Carlo 는 계산하려는 값을 구하기 힘들 때 수많은 시도를 
 아래 그림은 수많은 점을 찍어 원주율을 계산하는 과정입니다.
 
 ![Monte Carlo Example](./Pi_30K.gif)
-출처: 나무위키 -->
+
+출처: [위키피디아 - 몬테카를로 방법](https://ko.wikipedia.org/wiki/%EB%AA%AC%ED%85%8C%EC%B9%B4%EB%A5%BC%EB%A1%9C_%EB%B0%A9%EB%B2%95)
 
 MCTS 는 가상으로 수많은 수를 두면서 트리를 구성하는 방식이다. 많은 게임을 하면 할수록 트리는 더 다양한 상황을 탐색하고 더 좋은 수를 알아낼 수 있습니다.
 MCTS 는 크게 4 step(Selection, Expansion, Evaluation, Backup) 으로 나눌 수 있습니다.
@@ -110,13 +111,13 @@ MCTS 의 첫 과정 Selection, Expansion 은 SL Policy 를 이용하여 트리�
 
 ![MCTS Selection](./mcts-step-selection.png)
 
-출처: Mastering the game of Go with deep neural networks and tree search
+출처: [Mastering the game of Go with deep neural networks and tree search](https://www.nature.com/articles/nature16961)
 
 먼저 위 그림과 같이 루트에서 $$Q+u(p)$$ 큰 값의 상태를 따라 내려갑니다.
 
 ![MCTS Expansion](./mcts-step-expansion.png)
 
-출처: Mastering the game of Go with deep neural networks and tree search
+출처: [Mastering the game of Go with deep neural networks and tree search](https://www.nature.com/articles/nature16961)
 
 값이 높은 방향으로 선택하면서 내려가다가 이미 방문했던 상태 이외에 큰 $$Q+u(p)$$ 를 만나면 그림처럼 가지를 뻗어 나갑니다.
 $$u(p)$$ 는 $$P(s, a) / N(s, a)$$ 값에 비례합니다.
@@ -126,7 +127,7 @@ $$u(p)$$ 는 $$P(s, a) / N(s, a)$$ 값에 비례합니다.
 
 `Humans select a diverse beam of promising moves, whereas RL potimizes for the single best move`
 
-출처: Mastering the game of Go with deep neural networks and tree search
+출처: [Mastering the game of Go with deep neural networks and tree search](https://www.nature.com/articles/nature16961)
 
 ## Evaluation
 
@@ -134,7 +135,7 @@ Selection, Expansion 으로 바둑돌을 놓은 후 얼마나 좋은 수인지 �
 
 ![MCTS Evaluation](./mcts-step-evaluation.png)
 
-출처: Mastering the game of Go with deep neural networks and tree search
+출처: [Mastering the game of Go with deep neural networks and tree search](https://www.nature.com/articles/nature16961)
 
 여기서 판단하는 방식이 2가지가 있는데, 첫 번째로는 Value Network 를 써서 바둑판의 상태를 보고 승률을 예측해봅니다.
 두 번째로 위에서 언급했던 SL Policy Network 보다 가볍고 빠른 Rollout Policy Network 을 이용해서 가상으로 끝까지 게임을 플레이 합니다.
@@ -148,7 +149,7 @@ Value Network 의 값과 Rollout Policy Network 로 플레이한 게임의 결�
 
 ![MCTS Backup](./mcts-step-backup.png)
 
-출처: Mastering the game of Go with deep neural networks and tree search
+출처: [Mastering the game of Go with deep neural networks and tree search](https://www.nature.com/articles/nature16961)
 
 # Conclusion
 
