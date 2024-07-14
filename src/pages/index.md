@@ -9,15 +9,13 @@ title: About
 iOS 개발을 주로 하다가 현재는 서버 개발을 주로 하고 있습니다.
 
 - iOS 개발
-  - 프로젝트 설정 & 프로젝트 내 다양한 shell script 관리를 위해 [tuist](https://tuist.io/) 도입 및 plugin 활용
-    오히려 빠르게 기능을 개발하기 위한 자동화, 빼먹기 쉬운 로그를 어떻게 잘 챙길 수 있는지, 어떤 화면에 어떤 로그가 남는지 자동으로 문서화하기 같은 것에 관심이 많습니다.
-  - View, Click 로그 노션에 문서 자동으로 업데이트하기
-  - RIBs, ReactorKit 등을 사용해본 경험이 있고 아키텍처에 대해서는 각각 장단점이 있어 팀 내에서 논의 후 맞는 아키텍쳐를 선택하면 된다고 생각합니다. 많은 회사에서 RIBs 를 도입하는 것에 대하여 회의적인 편입니다.
+  - 프로젝트 설정 & 프로젝트 내 다양한 shell script 관리를 위해 [tuist](https://tuist.io/) 도입 및 plugin 활용했습니다.
+  - 기본적인 데이터 분석에 필요한 View, Click 로그를 남기고 문서를 자동으로 업데이트하도록 했습니다.
+  - RIBs, ReactorKit 등 다양한 아키텍처를 사용해본 경험이 있습니다.
 - 서버 개발
   - 도메인 지식을 쌓기 위해 Spring, Kotlin, mysql 기반으로 기능 개발 & 리팩토링 위주의 개발하고 있습니다.
-  - [데이터 중심 애플리케이션 설계](https://www.yes24.com/Product/Goods/59566585), [CMU Intro to Database Systems](https://www.youtube.com/playlist?list=PLSE8ODhjZXjaKScG3l0nuOiDTTqpfnWFf) 로 지식을 쌓고 있는 중입니다.
-  - Kubernetes, Terraform 등 프로젝트 설정 & 인프라 관련 개념이 부족한 상태입니다.
-- 안드로이드 시스템에 대한 이해도는 부족하지만 간단한 UI 개발 정도는 할 수 있습니다.
+  - Kubernetes, Terraform 등 프로젝트 설정 & 인프라 관련 개념이 부족한 상태라 키워드 중심으로 개념을 학습하고 있는 단계입니다.
+- 안드로이드 시스템에 대한 이해도는 부족하지만 간단한 UI 개발 정도 할 수 있습니다.
 - Web 간단한 기능 개발 및 리팩토링
   - 회사에서 실험적으로 썼던 [jotai](https://jotai.org/) 를 주로 쓰고 있는 redux + saga 로 변경했습니다.
   - 하지만 Redux Saga 에 불편을 느껴 다음에는 사용하지 않을 생각입니다.
@@ -25,15 +23,16 @@ iOS 개발을 주로 하다가 현재는 서버 개발을 주로 하고 있습�
     - flow control 유지보수가 어렵다.
       - 호출하는 모든 부분에 대해서 사이드 이펙트(fork, call 인지)를 고려해야한다.
       - watch 하는 부분도 takeEvery, takeLeading 등 파악 필요.
-  - 앱 내 웹뷰가 많아 Bridge 개발, 앱 환경에 따른 버그(예를 들어, safeArea 로 인한 UI 깨짐 등) 수정을 원활하게 할 수 있었습니다.
+  - 앱 내 웹뷰를 주로 개발하여 Bridge 개발, 앱 환경에 따른 버그(예를 들어, safeArea 로 인한 UI 깨짐 등) 수정을 원활하게 할 수 있었습니다.
 
 ### Experience
 
 - VCNC (2021/02 ~ )
   - 모빌리티 플랫폼 [TADA](https://tadatada.com/) iOS, 안드로이드, 웹, 서버 개발
-    - iOS 다양한 기능 개발, 출시 담당
     - 서버 다양한 기능 개발 및 리팩토링
-    - 안드로이드 간단한 기능 개발
+    - 클라이언트팀(iOS, 안드로이드) 리더를 잠시 맡았었습니다.
+      - iOS 다양한 기능 개발, 출시 담당
+      - 안드로이드 간단한 기능 개발
     - 웹 다양한 기능 개발 및 리팩토링
 - [계단뿌셔클럽](https://www.staircrusher.club/) (2022 ~ )
   - [계단정복지도 개발](https://play.google.com/store/apps/details?id=club.staircrusher&hl=en_US)
