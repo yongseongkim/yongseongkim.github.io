@@ -1,5 +1,5 @@
 ---
-title: Spring TransactionTemplate Internals
+title: Spring JPA TransactionTemplate Internals
 tags: [spring, jpa, transaction]
 ---
 
