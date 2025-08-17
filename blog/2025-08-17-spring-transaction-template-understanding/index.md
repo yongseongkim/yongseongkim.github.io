@@ -25,7 +25,7 @@ class TestController(
       .execute {
         val trackerRide = trackerRepository.findById("...")
 
-        // No explicit Transaction
+        // No explicit transaction
         val acceptedRide = rideRepository.findById("...")
 
         transactionTemplate
@@ -38,8 +38,8 @@ class TestController(
 }
 ```
 
-타다 차량의 위치를 처리하는 과정은 위 코드와 같이 차량 위치(tracker), 운행정보(ride), 드라이버(driver) 그리고 차량(vehicle) 테이블에 접근을 합니다.
-차량 위치를 처리하는 과정은 많은 드라이버의 위치 정보를 처리하다보니 수없이 불립니다.
+타다 차량의 위치를 처리하는 과정은 위 코드와 같이 차량 위치(tracker), 운행정보(ride), 드라이버(driver) 그리고 차량(vehicle) 테이블에 접근합니다.
+이 과정은 많은 드라이버의 위치 정보를 처리해야 하므로 빈번하게 호출됩니다.
 이러한 상황에서 vehicle 에 column 을 추가하는 DDL 을 실행하면 vehicle, vehicle 과 foreign key 로 연결된 테이블(ride, driver, ...)에 metadata lock 을 잡으려고 합니다.
 DDL 이 vehicle → ride 로 metadata lock 을 획득하는 과정에서 위 코드에서는 ride → vehicle 순서로 metadata lock 을 잡으려고 하니 deadlock 상태에 빠져버렸습니다.
 `rideRepository.findById` 는 데이터를 가져온 후 metadata lock 을 해제해야하는데 trackerTransactionTemplate 범위 내내 lock 을 획득한 채로 있어 deadlock 에 빠졌습니다.
@@ -72,7 +72,7 @@ class TestController(
 
 대부분 API 에 토큰에 대한 검증을 하는 과정이 있습니다. 이때 마스터 데이터베이스를 보기 보다는 READ REPLICA 데이터베이스에 접근해서 부하를 분산합니다.
 근데 위와 같이 코드를 작성하면 이후 데이터를 업데이트하는 `rideRepository.save` 에서 문제가 발생합니다.
-READ REPLICA Transaction 으로 시작하지 않았으니 마스터 데이터베이스를 기준으로 READ REPLICA TRANSACTION 이 동작할거라고 생각했지만 기대한 바와 반대로 동작했습니다.
+외부 Transaction이 먼저 시작되었으니 마스터 데이터베이스 연결을 사용하고, 내부 transactionTemplate도 이를 재활용할 것으로 기대했지만 실제로는 다르게 동작했습니다.
 
 두 문제에 대해서 정확한 원인을 파악하기 위해서는 TransactionTemplate 이 어떻게 동작하는지, TransactionTemplate 이 없을 때 Repository 로 데이터 접근할 때 어떻게 동작하는지 그리고 데이터베이스에 연결을 어떻게 맺는지 이해할 필요가 있었습니다.
 
@@ -238,7 +238,7 @@ private void cleanupAfterCompletion(DefaultTransactionStatus status) {
 }
 ```
 
-Context 를 정리하는 과정에서는 `TransactionSynchronizationManager` 를 통해서 ThreadLocal 저장되어있는 리소스들을 정리합니다.
+Context 를 정리하는 과정에서는 `TransactionSynchronizationManager` 를 통해서 ThreadLocal에 저장되어있는 리소스들을 정리합니다.
 
 ## 예시
 
@@ -286,8 +286,7 @@ class TestController(
 
 1. `TrackerDatabaseConfiguration` 에서 주입한 TransactionManager 를 통해 새로운 Transaction 을 시작합니다. `TransactionSynchronizationManager` 에 정의한 EntityManager 가 없으니 새로 만듭니다.
 2. `trackerRepository.findById` 는 `TransactionAspectSupport.invokeWithinTransaction` 를 호출하고 1 에서 정의한 EntityManager 를 활용해 데이터를 가져옵니다.
-3. `rideRepository.findById` 도 2번과 같이 `TransactionAspectSupport.invokeWithinTransaction` 를 호출합니다.
-   - 2번 동작과는 다르게 `PrimaryDatabaseConfiguration` 에서 정의한 EntityManagerFactory 를 key 로 `TransactionSynchronizationManager` 에서 접근하지만 해당하는 EntityManager 가 없어 새로 EntityManager 를 만듭니다.
+3. `rideRepository.findById` 도 `TransactionAspectSupport.invokeWithinTransaction` 를 호출하지만, `PrimaryDatabaseConfiguration` 의 EntityManagerFactory 를 사용하므로 새로운 EntityManager 를 만듭니다.
    - 이전에 언급했듯이, Transaction 이 없는 Repository 접근은 EntityManager 를 새로 만들어 접근 후 바로 해제합니다.
    - 그런데 Tracker Transaction 내부이기 때문에 `TransactionSynchronizationManager` 에 저장된 Synchronization 이 존재합니다. 그래서 PrimaryDatabase 에 대한 Transaction 이 아니더라도 ThreadLocal 에 EntityManager 를 저장합니다.
      ```java
