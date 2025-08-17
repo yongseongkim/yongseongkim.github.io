@@ -8,13 +8,13 @@ title: About
 한 분야를 깊게 파고들어 연구하기보다는 프로덕트 중심으로 전반적인 기술 구성에 대해 지식 쌓기 좋아합니다.
 iOS 개발을 주로 하다가 현재는 서버 개발을 주로 하고 있습니다.
 
+- 서버 개발
+  - 도메인 지식을 쌓기 위해 Spring, Kotlin, mysql 기반으로 기능 개발 & 리팩토링 위주의 개발하고 있습니다.
+  - Kubernetes, Terraform 등 프로젝트 설정 & 인프라 관련 개념이 부족한 상태라 키워드 중심으로 개념을 학습하고 있는 단계입니다.
 - iOS 개발
   - 프로젝트 설정 & 프로젝트 내 다양한 shell script 관리를 위해 [tuist](https://tuist.io/) 도입 및 plugin 활용했습니다.
   - 기본적인 데이터 분석에 필요한 View, Click 로그를 남기고 문서를 자동으로 업데이트하도록 했습니다.
   - RIBs, ReactorKit 등 다양한 아키텍처를 사용해본 경험이 있습니다.
-- 서버 개발
-  - 도메인 지식을 쌓기 위해 Spring, Kotlin, mysql 기반으로 기능 개발 & 리팩토링 위주의 개발하고 있습니다.
-  - Kubernetes, Terraform 등 프로젝트 설정 & 인프라 관련 개념이 부족한 상태라 키워드 중심으로 개념을 학습하고 있는 단계입니다.
 - 안드로이드 시스템에 대한 이해도는 부족하지만 간단한 UI 개발 정도 할 수 있습니다.
 - Web 간단한 기능 개발 및 리팩토링
   - 회사에서 실험적으로 썼던 [jotai](https://jotai.org/) 를 주로 쓰고 있는 redux + saga 로 변경했습니다.
@@ -67,6 +67,6 @@ iOS 개발을 주로 하다가 현재는 서버 개발을 주로 하고 있습�
 ### Contact
 
 - yongseongkimm@gmail.com
-- [Github](https://github.com/yongseongkim)
+- [GitHub](https://github.com/yongseongkim)
 - [X](https://x.com/__yysk)
 - [LinkedIn](https://www.linkedin.com/in/%EC%9A%A9%EC%84%B1-%EA%B9%80-327854a8/)
