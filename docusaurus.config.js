@@ -93,8 +93,9 @@ const config = {
         copyright: `Copyright © ${new Date().getFullYear()} yongseongkim`,
       },
       prism: {
-        theme: darkCodeTheme,
-        additionalLanguages: ["powershell", "swift", "bash"],
+        theme: lightCodeTheme,
+        darkTheme: darkCodeTheme,
+        additionalLanguages: ["powershell", "swift", "bash", "java", "kotlin"],
       },
     }),
 
