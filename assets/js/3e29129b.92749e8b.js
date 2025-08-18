@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkblog_yongseongkim=self.webpackChunkblog_yongseongkim||[]).push([[2796],{5910:e=>{e.exports=JSON.parse('{"permalink":"/blog/tags/universallink","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);

@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkblog_yongseongkim=self.webpackChunkblog_yongseongkim||[]).push([[2002],{8250:s=>{s.exports=JSON.parse('{"label":"swiftui","permalink":"/blog/tags/swiftui","allTagsPath":"/blog/tags","count":2}')}}]);
