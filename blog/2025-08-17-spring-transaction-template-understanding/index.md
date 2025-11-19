@@ -8,12 +8,42 @@ Spring 관련 인터넷 강의, 공식 문서 외에는 따로 공부하고 있�
 
 # 최근에 마주한 문제들
 
+타다 서버를 운영하면서 마주한 두 가지 문제를 소개합니다. 두 문제 모두 TransactionTemplate과 데이터베이스 연결 관리와 관련이 있습니다.
+
 ## 첫번째 문제, add column to vehicle table DDL
 
-최근에 [타다](https://www.tadatada.com/) 서버를 배포하던 중에 차량(vehicle) 테이블에 컬럼을 추가하는 DDL과 차량 위치 추적 데이터 처리에서 deadlock이 발생했습니다.
+최근에 [타다](https://www.tadatada.com/) 서버를 배포하던 중에
 
-타다에서는 차량(vehicle) 테이블을 드라이버(driver), 운행정보(ride) 등 많은 테이블이 foreign key를 이용해서 참조하고 있습니다.
-또한 일반 정보를 저장하는 **PrimaryDatabase**와 차량 위치를 추적하는 **TrackerDatabase**를 분리하여 관리하고 있습니다.
+1. 차량(vehicle) 테이블에 컬럼을 추가하는 DDL
+2. 차량 위치 추적 데이터 처리
+
+두 과정에서 deadlock이 발생했습니다. processlist로 상황을 파악해보니 아래와 같았습니다.
+
+```mermaid
+sequenceDiagram
+    participant DDL as DDL Process
+    participant VT as Vehicle Table
+    participant RT as Ride Table
+    participant App as 위치정보 처리
+
+    DDL->>VT: 1. Metadata Lock 획득
+    Note over VT: vehicle 테이블 잠금
+
+    App->>RT: 2. Metadata Lock 획득
+    Note over RT: ride 테이블 잠금
+
+    DDL->>RT: 3. Metadata Lock 대기
+    Note left of DDL: Foreign Key 관계로<br/>ride 테이블 lock 필요
+
+    App->>VT: 4. Metadata Lock 대기
+    Note right of App: vehicle 테이블<br/>접근 시도
+
+    Note over VT,RT: 🔴 DEADLOCK
+```
+
+타다에서는 **PrimaryDatabase**(차량, 드라이버, 운행정보)와 **TrackerDatabase**(차량 위치 추적)를 분리하여 사용합니다. 각 데이터베이스는 별도의 TransactionTemplate(`transactionTemplate`, `trackerTransactionTemplate`)로 접근합니다.
+
+PrimaryDatabase 테이블들은 foreign key로 연결되어 있어, Vehicle 테이블에 DDL을 실행하면 관련된 Ride 테이블에도 metadata lock을 획득하려고 합니다.
 
 ```kotlin
 class TestController(
@@ -27,7 +57,7 @@ class TestController(
         val trackerRide = trackerRepository.findById("...")
 
         // No explicit transaction
-        val acceptedRide = rideRepository.findById("...")
+        val acceptedRide = rideRepository.findById("...") // metadata lock
 
         transactionTemplate
           .execute {
@@ -39,41 +69,15 @@ class TestController(
 }
 ```
 
-타다 차량의 위치를 처리하는 과정은 위 코드와 같이 차량 위치(tracker), 운행정보(ride), 드라이버(driver) 그리고 차량(vehicle) 테이블에 접근합니다.
-이 과정은 많은 드라이버의 위치 정보를 처리해야 하므로 빈번하게 호출됩니다.
+위 코드는 차량 데이터를 처리하는 코드입니다. 문제는 `val acceptedRide = rideRepository.findById("...")`에서 발생합니다.
+TransactionTemplate 없이 PrimaryDatabase에 접근하면, 생성된 metadata lock이 즉시 해제되지 않고 상위 `trackerTransactionTemplate`이 종료될 때까지 유지되면서 DDL 과 충돌이 생긴 것입니다.
 
-이러한 상황에서 vehicle에 column을 추가하는 DDL을 실행하면:
-
-```mermaid
-sequenceDiagram
-    participant DDL as DDL Process
-    participant VT as Vehicle Table
-    participant RT as Ride Table
-    participant App as 위치정보 처리
-     
-    DDL->>VT: 1. Metadata Lock 획득
-    Note over VT: vehicle 테이블 잠금
-    
-    App->>RT: 2. Metadata Lock 획득
-    Note over RT: ride 테이블 잠금<br/>(trackerTransaction 내부)
-    
-    DDL->>RT: 3. Metadata Lock 대기
-    Note left of DDL: Foreign Key 관계로<br/>ride 테이블 lock 필요
-    
-    App->>VT: 4. Metadata Lock 대기
-    Note right of App: vehicle 테이블<br/>접근 시도
-    
-    Note over VT,RT: 🔴 DEADLOCK
-```
-
-실제로 코드를 차례대로 실행하면 trackerTransactionTemplate이 종료될 때까지 `rideRepository.findById`에서 잡은 ride 테이블의 metadata lock이 유지됩니다.
-
-`rideRepository.findById`를 transactionTemplate으로 감싸면 ride에 대한 metadata lock이 빠르게 해제되면서 해당 문제는 해결됩니다.
+해결 방법은 해당 코드를 `transactionTemplate`로 감싸는 것입니다. 이렇게 하면 metadata lock이 Transaction 종료 시 즉시 해제됩니다.
 
 ## 두번째 문제, ReadReplica Transaction in Serializable Transaction
 
-다른 기능을 배포하는 과정에서 `could not execute statement [The MySQL server is running with the --read-only option so it cannot execute this statement]` 에러가 발생했습니다.
-타다에서는 읽기 부하 분산을 위해 ReadReplica 데이터베이스를 사용하며, TransactionTemplate에 `isReadReplicaEnabled`라는 커스텀 속성을 추가하여 ReadReplica로 라우팅할 수 있도록 구현했습니다.
+새로운 기능을 배포하고 나서 `could not execute statement [The MySQL server is running with the --read-only option so it cannot execute this statement]` 에러가 발생했습니다.
+타다에서는 부하 분산을 위해 데이터 조회에 ReadReplica 데이터베이스를 사용하며, TransactionTemplate에 `isReadReplicaEnabled` 라는 커스텀 속성을 추가하여 ReadReplica 데이터베이스로 라우팅할 수 있도록 구현했습니다.
 
 ```kotlin
 @RestController
@@ -90,17 +94,24 @@ class TestController(
       }
     val ride = rideRepository.findById("...")
     // update something
-    rideRepository.save(ride)
+    rideRepository.save(ride) // error
   }
 }
 ```
 
-대부분 API에 토큰에 대한 검증을 하는 과정이 있습니다. 이때 마스터 데이터베이스를 보기보다는 READ REPLICA 데이터베이스에 접근해서 부하를 분산합니다.
+대부분 API 에 인증 정보를 조회하는 과정이 있습니다. 이때 마스터 데이터베이스가 아닌, ReadReplica 데이터베이스에 접근해서 부하를 분산합니다.
 
-그런데 위와 같이 코드를 작성하면 이후 데이터를 업데이트하는 `rideRepository.save`에서 문제가 발생합니다.
-외부 Transaction이 먼저 시작되었으니 마스터 데이터베이스 연결을 사용하고, 내부 transactionTemplate도 이를 재활용할 것으로 기대했지만 실제로는 다르게 동작했습니다.
+그런데 위와 같이 코드를 작성하면 데이터를 업데이트하는 `rideRepository.save`에서 문제가 발생합니다.
+`@Transactional` 는 ReadReplica 관련 속성을 명시하지 않아 마스터 데이터베이스에 연결을 하여 인증과정에 `isReadReplicaEnabled` 를 명시했더라도 기존 connection 을 사용할 것이라고 기대했습니다.
+하지만 함수 내부 Transaction 에서 열린 connection 을 기준으로 update 하려고 하다보니 문제가 생긴 것 처럼 보였습니다.
 
-두 문제에 대해서 정확한 원인을 파악하기 위해서는 TransactionTemplate이 어떻게 동작하는지, TransactionTemplate이 없을 때 Repository로 데이터 접근할 때 어떻게 동작하는지 그리고 데이터베이스에 연결을 어떻게 맺는지 이해할 필요가 있었습니다.
+두 문제 모두 Transaction 생명주기와 데이터베이스 연결 관리에서 발생했습니다. 정확한 원인 파악을 위해 다음 내용을 이해할 필요가 있었습니다:
+
+- TransactionTemplate의 동작 원리
+- TransactionTemplate 없이 Repository로 데이터 접근할 때의 동작
+- 데이터베이스 연결 생성 및 관리 방법
+
+다음 섹션에서 이를 상세히 살펴보겠습니다.
 
 # 먼저 TransactionTemplate 동작 이해하기
 
@@ -473,6 +484,7 @@ class ReadReplicaAwareDataSourceFactory(private val dataSource: DataSource, priv
 ```
 
 `LazyConnectionDataSourceProxy` 는 connection 을 한번 만든 다음 캐싱해놓습니다.
+
 ```java
 // LazyConnectionDataSourceProxy.java
 private Connection getTargetConnection(Method operation) throws SQLException {
