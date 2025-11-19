@@ -4,26 +4,22 @@ title: About
 
 ![Main](/img/main_cover.jpg)
 
-단순히 요구사항을 받아 개발하기보다는 비즈니스 관련 지식을 쌓아 기술적인 해결방안을 찾으려 노력합니다.
-한 분야를 깊게 파고들어 연구하기보다는 프로덕트 중심으로 전반적인 기술 구성에 대해 지식 쌓기 좋아합니다.
-iOS 개발을 주로 하다가 현재는 서버 개발을 주로 하고 있습니다.
+비즈니스 지식을 바탕으로 기술적 해결방안을 찾는 것을 좋아합니다.
+프로덕트 중심으로 전반적인 기술 스택을 이해하고 활용하는 것에 관심이 많습니다.
+iOS 개발을 시작으로 현재는 서버 개발을 주로 하고 있습니다.
 
 - 서버 개발
-  - 도메인 지식을 쌓기 위해 Spring, Kotlin, mysql 기반으로 기능 개발 & 리팩토링 위주의 개발하고 있습니다.
-  - Kubernetes, Terraform 등 프로젝트 설정 & 인프라 관련 개념이 부족한 상태라 키워드 중심으로 개념을 학습하고 있는 단계입니다.
+  - Spring, Kotlin, MySQL 기반으로 [타다 서비스](https://tadatada.com/) 개발
+  - k8s, terraform 등 인프라 도구에 대해서 간단한 경험
 - iOS 개발
-  - 프로젝트 설정 & 프로젝트 내 다양한 shell script 관리를 위해 [tuist](https://tuist.io/) 도입 및 plugin 활용했습니다.
-  - 기본적인 데이터 분석에 필요한 View, Click 로그를 남기고 문서를 자동으로 업데이트하도록 했습니다.
-  - RIBs, ReactorKit 등 다양한 아키텍처를 사용해본 경험이 있습니다.
-- 안드로이드 시스템에 대한 이해도는 부족하지만 간단한 UI 개발 정도 할 수 있습니다.
-- Web 간단한 기능 개발 및 리팩토링
-  - 회사에서 실험적으로 썼던 [jotai](https://jotai.org/) 를 주로 쓰고 있는 redux + saga 로 변경했습니다.
-  - 하지만 Redux Saga 에 불편을 느껴 다음에는 사용하지 않을 생각입니다.
-    - slice, saga 상태 관리를 두 곳에서 할 수 있다.
-    - flow control 유지보수가 어렵다.
-      - 호출하는 모든 부분에 대해서 사이드 이펙트(fork, call 인지)를 고려해야한다.
-      - watch 하는 부분도 takeEvery, takeLeading 등 파악 필요.
-  - 앱 내 웹뷰를 주로 개발하여 Bridge 개발, 앱 환경에 따른 버그(예를 들어, safeArea 로 인한 UI 깨짐 등) 수정을 원활하게 할 수 있었습니다.
+  - [tuist](https://tuist.io/)를 활용한 프로젝트 설정 및 관리
+  - RIBs, ReactorKit 등 다양한 아키텍처 경험
+- 안드로이드 개발
+  - 간단한 UI 개발 및 기능 구현
+- Web 개발
+  - React 기반 기능 개발 및 리팩토링
+  - jotai, Redux 등 상태 관리 라이브러리 경험
+  - 웹뷰 Bridge 개발 및 앱 환경 대응
 
 ### Experience
 
@@ -31,8 +27,8 @@ iOS 개발을 주로 하다가 현재는 서버 개발을 주로 하고 있습�
   - 모빌리티 플랫폼 [TADA](https://tadatada.com/) iOS, 안드로이드, 웹, 서버 개발
     - 서버 다양한 기능 개발 및 리팩토링
     - 클라이언트팀(iOS, 안드로이드) 리더를 잠시 맡았었습니다.
-      - iOS 다양한 기능 개발, 출시 담당
-      - 안드로이드 간단한 기능 개발
+      - iOS 기능 개발 및 전반적인 프로세스 담당
+      - 안드로이드 간단한 기능 개발 및 전반적인 프로세스 담당
     - 웹 다양한 기능 개발 및 리팩토링
 - [계단뿌셔클럽](https://www.staircrusher.club/) (2022 ~ )
   - [계단정복지도 개발](https://play.google.com/store/apps/details?id=club.staircrusher&hl=en_US)
