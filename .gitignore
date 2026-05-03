@@ -2,3 +2,6 @@
 build
 node_modules
 
+# Wedding gallery originals (kept locally, too large for repo)
+static/img/wedding/originals/
+

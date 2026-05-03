@@ -1,0 +1,156 @@
+.venue {
+  padding: 0 24px;
+}
+
+.info {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.name {
+  font-size: 1.375rem;
+  font-weight: 500;
+  color: #0a0a0a;
+  margin: 0 0 8px;
+  letter-spacing: 0.02em;
+}
+
+.address {
+  font-size: 0.9375rem;
+  color: #3a3a3a;
+  margin: 0 0 4px;
+  letter-spacing: 0.02em;
+}
+
+.addressSub {
+  font-size: 0.875rem;
+  color: #9a9a9a;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.mapButtons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.naverCta,
+.kakaoCta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.naverCta {
+  background: #03c75a;
+  color: #ffffff;
+}
+
+.naverCta:hover {
+  background: #02b052;
+  color: #ffffff;
+}
+
+.kakaoCta {
+  background: #fee500;
+  color: #181600;
+}
+
+.kakaoCta:hover {
+  background: #f5dc00;
+  color: #181600;
+}
+
+.naverCta:active,
+.kakaoCta:active {
+  transform: scale(0.99);
+}
+
+.ctaIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.directions {
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 0.9375rem;
+  color: #3a3a3a;
+}
+
+.directions summary {
+  cursor: pointer;
+  color: #0a0a0a;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.directions summary::-webkit-details-marker {
+  display: none;
+}
+
+.directions summary::after {
+  content: '+';
+  font-size: 1.25rem;
+  color: #9a9a9a;
+  font-weight: 300;
+}
+
+.directions[open] summary::after {
+  content: '−';
+}
+
+.directions ul {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  line-height: 1.6;
+}
+
+.directions li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.directions li strong {
+  flex: 0 0 42px;
+  color: #0a0a0a;
+  font-weight: 500;
+}
+
+.directions li span {
+  color: #3a3a3a;
+}
+
+.notice {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  background: #ffffff;
+  border: 1px solid #ececec;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: #6b6b6b;
+  text-align: center;
+  letter-spacing: 0.02em;
+}

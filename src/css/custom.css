@@ -28,3 +28,16 @@
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+html:has(.wedding-codex-layout) body {
+  background: #f7f2eb;
+  color-scheme: light;
+}
+
+html:has(.wedding-codex-layout) .navbar {
+  display: none;
+}
+
+html:has(.wedding-codex-layout) .wedding-codex-layout {
+  min-height: 100vh;
+}
