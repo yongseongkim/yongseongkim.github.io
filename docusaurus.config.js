@@ -29,6 +29,14 @@ const config = {
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
 
+  customFields: {
+    // Replace with your Naver Cloud Platform Maps Client ID.
+    // Register at https://www.ncloud.com/product/applicationService/maps
+    // → Maps → Application → Web 서비스 URL must include this site's origin
+    // (http://localhost:3000 for dev, https://yongseongkim.github.io for prod).
+    naverMapsClientId: "zgy57tjsbx",
+  },
+
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
   // to replace "en" with "zh-Hans".
@@ -70,6 +78,23 @@ const config = {
         },
       }),
     ],
+  ],
+
+  plugins: [
+    // Safety shim for @docusaurus/plugin-google-gtag. That plugin injects an
+    // inline <script> defining window.gtag, but ad blockers / strict CSP /
+    // tracking protection can prevent it from running — and the plugin then
+    // calls window.gtag() blindly on every SPA route change, crashing the app.
+    // This client module runs from the main bundle (not blockable) and
+    // guarantees window.gtag exists as a no-op if the real one is missing.
+    function gtagSafePlugin() {
+      return {
+        name: "gtag-safe",
+        getClientModules() {
+          return [require.resolve("./src/clientModules/gtagShim.js")];
+        },
+      };
+    },
   ],
 
   themeConfig:

@@ -1,0 +1,62 @@
+.greeting {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 24px;
+}
+
+.body {
+  text-align: center;
+  color: #3a3a3a;
+  font-size: 1rem;
+  line-height: 2;
+  letter-spacing: 0.02em;
+}
+
+.body p {
+  margin: 0 0 20px;
+}
+
+.body p:last-child {
+  margin-bottom: 0;
+}
+
+.signature {
+  margin-top: 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 0.875rem;
+  color: #6b6b6b;
+  letter-spacing: 0.04em;
+}
+
+.sigRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.sigParents {
+  color: #0a0a0a;
+}
+
+.sigLabel {
+  color: #9a9a9a;
+}
+
+.sigName {
+  color: #0a0a0a;
+  font-weight: 500;
+  margin-left: 2px;
+}
+
+.deceased {
+  font-size: 0.85em;
+  color: #9a9a9a;
+  margin-right: 1px;
+  vertical-align: 0.05em;
+}

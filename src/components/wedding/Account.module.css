@@ -1,0 +1,113 @@
+.account {
+  padding: 0 24px;
+}
+
+.note {
+  text-align: center;
+  font-size: 0.9375rem;
+  color: #6b6b6b;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+  margin: 0 0 28px;
+}
+
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.group {
+  background: #fafafa;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.groupTitle {
+  margin: 0;
+  padding: 16px 18px 12px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: #0a0a0a;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.row {
+  background: #ffffff;
+  border: 1px solid #ececec;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.rowHead {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.role {
+  font-size: 0.8125rem;
+  color: #9a9a9a;
+  letter-spacing: 0.08em;
+}
+
+.name {
+  font-size: 1rem;
+  color: #0a0a0a;
+  letter-spacing: 0.02em;
+}
+
+.rowBody {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bank {
+  font-size: 0.875rem;
+  color: #6b6b6b;
+  letter-spacing: 0.04em;
+}
+
+.number {
+  flex: 1;
+  font-size: 0.9375rem;
+  color: #0a0a0a;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.copyBtn {
+  font-size: 0.8125rem;
+  color: #0a0a0a;
+  background: #ffffff;
+  border: 1px solid #d4d4d4;
+  border-radius: 999px;
+  padding: 7px 14px;
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  min-width: 60px;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.copyBtn:hover {
+  background: #0a0a0a;
+  color: #ffffff;
+  border-color: #0a0a0a;
+}
+
+.copyBtnDone {
+  background: #0a0a0a;
+  color: #ffffff;
+  border-color: #0a0a0a;
+}

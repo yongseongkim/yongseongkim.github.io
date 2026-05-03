@@ -1,0 +1,131 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.94);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  touch-action: pan-y;
+  animation: fade 0.2s ease;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.stage {
+  max-width: min(92vw, 720px);
+  max-height: 72vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image {
+  max-width: 100%;
+  max-height: 72vh;
+  object-fit: contain;
+  display: block;
+  border-radius: 4px;
+}
+
+.skeletonWrap {
+  width: min(80vw, 320px);
+}
+
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  border: none;
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.nav:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.prev {
+  left: 16px;
+}
+
+.next {
+  right: 16px;
+}
+
+.bottomBar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 0 24px;
+}
+
+.counter {
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.75);
+  font-variant-numeric: tabular-nums;
+}
+
+.closeBtn {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  padding: 12px 36px;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+  font-family: inherit;
+}
+
+.closeBtn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.32);
+}
+
+.closeBtn:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 520px) {
+  .nav {
+    width: 38px;
+    height: 38px;
+    font-size: 24px;
+  }
+
+  .prev {
+    left: 8px;
+  }
+
+  .next {
+    right: 8px;
+  }
+}

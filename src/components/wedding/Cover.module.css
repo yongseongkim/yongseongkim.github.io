@@ -1,0 +1,57 @@
+.cover {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0 56px;
+}
+
+.photo {
+  width: 100%;
+  margin-bottom: 40px;
+  background: #f4f4f4;
+  overflow: hidden;
+}
+
+.photo img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.namesKo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.875rem;
+  font-size: 1.875rem;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  color: #0a0a0a;
+  white-space: nowrap;
+}
+
+.dot {
+  color: #c8c8c8;
+  font-weight: 300;
+}
+
+.meta {
+  margin-top: 28px;
+  text-align: center;
+}
+
+.date {
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: #0a0a0a;
+  margin: 0 0 8px;
+}
+
+.venue {
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: #6b6b6b;
+  margin: 0;
+}
