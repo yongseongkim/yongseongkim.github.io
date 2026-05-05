@@ -1,0 +1,169 @@
+.gift {
+  padding: 0 24px;
+}
+
+.note {
+  text-align: center;
+  font-size: 0.9375rem;
+  line-height: 1.8;
+  color: #6b6b6b;
+  letter-spacing: 0.02em;
+  margin: 0 0 24px;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card {
+  background: #fafafa;
+  border-radius: 14px;
+  padding: 16px 18px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.role {
+  font-size: 0.875rem;
+  color: #9a9a9a;
+  width: 56px;
+  letter-spacing: 0.04em;
+}
+
+.name {
+  flex: 1;
+  font-size: 1rem;
+  color: #0a0a0a;
+  letter-spacing: 0.02em;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.iconBtn {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid #ececec;
+  border-radius: 999px;
+  color: #0a0a0a;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.iconBtn:hover {
+  background: #0a0a0a;
+  color: #ffffff;
+}
+
+.account {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #ececec;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bank {
+  font-size: 0.875rem;
+  color: #6b6b6b;
+  letter-spacing: 0.04em;
+}
+
+.number {
+  flex: 1;
+  font-size: 0.9375rem;
+  color: #0a0a0a;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.copyBtn {
+  font-size: 0.8125rem;
+  color: #0a0a0a;
+  background: #ffffff;
+  border: 1px solid #d4d4d4;
+  border-radius: 999px;
+  padding: 7px 14px;
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  min-width: 60px;
+  font-family: inherit;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.copyBtn:hover {
+  background: #0a0a0a;
+  color: #ffffff;
+  border-color: #0a0a0a;
+}
+
+.copyBtnDone {
+  background: #0a0a0a;
+  color: #ffffff;
+  border-color: #0a0a0a;
+}
+
+.parentList {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #ececec;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.parentBlock {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.parentBlock .role {
+  font-size: 0.8125rem;
+  width: 48px;
+}
+
+.parentBlock .name {
+  font-size: 0.9375rem;
+}
+
+.parentBlock .iconBtn {
+  width: 32px;
+  height: 32px;
+  background: #fafafa;
+}
+
+.parentBlock .account {
+  margin-top: 10px;
+  padding-top: 10px;
+}
+
+.parentBlock .bank {
+  font-size: 0.8125rem;
+}
+
+.parentBlock .number {
+  font-size: 0.875rem;
+}
+
+.parentBlock .copyBtn {
+  font-size: 0.75rem;
+  padding: 6px 12px;
+  min-width: 52px;
+}
