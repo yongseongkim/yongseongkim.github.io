@@ -38,7 +38,7 @@ export default function WeddingPage(): JSX.Element {
     <>
       <Head>
         <html lang="ko" />
-        <title>김용성 · 조현수 청첩장</title>
+        <title>조현수 · 김용성 청첩장</title>
         <meta
           name="description"
           content="2026년 9월 12일 토요일 오후 5시 · 더채플앳청담"
@@ -49,7 +49,7 @@ export default function WeddingPage(): JSX.Element {
         />
 
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="김용성 · 조현수 청첩장" />
+        <meta property="og:title" content="조현수 · 김용성 청첩장" />
         <meta
           property="og:description"
           content="2026년 9월 12일 토요일 오후 5시 · 더채플앳청담"
@@ -60,7 +60,7 @@ export default function WeddingPage(): JSX.Element {
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="1555" />
-        <meta property="og:image:alt" content="김용성 · 조현수" />
+        <meta property="og:image:alt" content="조현수 · 김용성" />
         <meta
           property="og:url"
           content="https://yongseongkim.github.io/wedding/"
@@ -68,7 +68,7 @@ export default function WeddingPage(): JSX.Element {
         <meta property="og:locale" content="ko_KR" />
 
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="김용성 · 조현수 청첩장" />
+        <meta name="twitter:title" content="조현수 · 김용성 청첩장" />
         <meta
           name="twitter:description"
           content="2026년 9월 12일 토요일 오후 5시 · 더채플앳청담"

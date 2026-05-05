@@ -1,4 +1,5 @@
 import React from 'react';
+import FlowerCanvas from './FlowerCanvas';
 import styles from './Cover.module.css';
 
 export default function Cover(): JSX.Element {
@@ -7,16 +8,17 @@ export default function Cover(): JSX.Element {
       <div className={styles.photo}>
         <img
           src="/img/wedding/cover.webp"
-          alt="김용성 · 조현수"
+          alt="조현수 · 김용성"
           width={1200}
           height={1555}
         />
+        <FlowerCanvas />
       </div>
 
       <div className={styles.namesKo}>
-        <span>김용성</span>
-        <span className={styles.dot}>·</span>
         <span>조현수</span>
+        <span className={styles.dot}>·</span>
+        <span>김용성</span>
       </div>
 
       <div className={styles.meta}>

@@ -22,16 +22,16 @@ export default function Greeting(): JSX.Element {
 
       <div className={styles.signature}>
         <div className={styles.sigRow}>
+          <span className={styles.sigParents}>조영상 · 김선희</span>
+          <span className={styles.sigLabel}>의 딸</span>
+          <span className={styles.sigName}>조현수</span>
+        </div>
+        <div className={styles.sigRow}>
           <span className={styles.sigParents}>
             <span className={styles.deceased}>故</span> 김한수 · 신금채
           </span>
           <span className={styles.sigLabel}>의 아들</span>
           <span className={styles.sigName}>김용성</span>
-        </div>
-        <div className={styles.sigRow}>
-          <span className={styles.sigParents}>아버지 · 어머니</span>
-          <span className={styles.sigLabel}>의 딸</span>
-          <span className={styles.sigName}>조현수</span>
         </div>
       </div>
     </section>

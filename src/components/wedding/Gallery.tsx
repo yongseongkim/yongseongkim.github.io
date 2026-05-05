@@ -9,11 +9,15 @@ export type Photo = {thumb: string; full: string};
 
 const photos: Photo[] = manifest as Photo[];
 const PLACEHOLDER_COUNT = 18;
+const INITIAL_VISIBLE = 9;
 
 export default function Gallery(): JSX.Element {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [expanded, setExpanded] = useState(false);
 
   const isEmpty = photos.length === 0;
+  const hasMore = photos.length > INITIAL_VISIBLE && !expanded;
+  const visiblePhotos = expanded ? photos : photos.slice(0, INITIAL_VISIBLE);
 
   const open = useCallback(
     (i: number) => {
@@ -47,7 +51,7 @@ export default function Gallery(): JSX.Element {
                 <Skeleton aspect="1 / 1" />
               </div>
             ))
-          : photos.map((photo, i) => (
+          : visiblePhotos.map((photo, i) => (
               <button
                 key={photo.thumb}
                 type="button"
@@ -64,6 +68,16 @@ export default function Gallery(): JSX.Element {
               </button>
             ))}
       </div>
+
+      {hasMore && (
+        <button
+          type="button"
+          className={styles.moreBtn}
+          onClick={() => setExpanded(true)}
+        >
+          사진 더보기 (+{photos.length - INITIAL_VISIBLE})
+        </button>
+      )}
 
       {openIndex != null && !isEmpty && (
         <Lightbox

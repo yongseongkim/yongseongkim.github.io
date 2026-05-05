@@ -35,3 +35,30 @@
   object-fit: cover;
   display: block;
 }
+
+.moreBtn {
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px;
+  background: #ffffff;
+  border: 1px solid #d4d4d4;
+  border-radius: 12px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: #0a0a0a;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.moreBtn:hover {
+  background: #0a0a0a;
+  color: #ffffff;
+  border-color: #0a0a0a;
+}
+
+.moreBtn:active {
+  transform: scale(0.99);
+}

@@ -79,6 +79,14 @@ export default function Venue(): JSX.Element {
             </span>
           </li>
           <li>
+            <strong>버스</strong>
+            <span>
+              영동고교앞 정류장 하차 후 도보 약 2분
+              <br />
+              간선 301 · 351 · 472 / 지선 3011 · 4412
+            </span>
+          </li>
+          <li>
             <strong>주차</strong>
             <span>내부 200대 · 외부 300대 · 1시간 30분 무료</span>
           </li>
