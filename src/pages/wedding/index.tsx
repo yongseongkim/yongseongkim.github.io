@@ -5,8 +5,7 @@ import Cover from '@site/src/components/wedding/Cover';
 import Greeting from '@site/src/components/wedding/Greeting';
 import Gallery from '@site/src/components/wedding/Gallery';
 import Venue from '@site/src/components/wedding/Venue';
-import Contact from '@site/src/components/wedding/Contact';
-import Account from '@site/src/components/wedding/Account';
+import Gift from '@site/src/components/wedding/Gift';
 import SectionHeading from '@site/src/components/wedding/SectionHeading';
 
 import styles from './styles.module.css';
@@ -101,10 +100,7 @@ export default function WeddingPage(): JSX.Element {
             <Venue />
           </div>
           <div className={styles.reveal}>
-            <Contact />
-          </div>
-          <div className={styles.reveal}>
-            <Account />
+            <Gift />
           </div>
           <div className={styles.reveal}>
             <div className={styles.closing}>
