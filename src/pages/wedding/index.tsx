@@ -59,7 +59,7 @@ export default function WeddingPage(): JSX.Element {
           content="https://yongseongkim.github.io/img/wedding/cover.jpg"
         />
         <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="1555" />
+        <meta property="og:image:height" content="1600" />
         <meta property="og:image:alt" content="조현수 · 김용성" />
         <meta
           property="og:url"

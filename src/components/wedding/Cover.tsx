@@ -10,7 +10,7 @@ export default function Cover(): JSX.Element {
           src="/img/wedding/cover.webp"
           alt="조현수 · 김용성"
           width={1200}
-          height={1555}
+          height={1600}
         />
         <FlowerCanvas />
       </div>
