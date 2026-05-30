@@ -56,14 +56,14 @@ export default function WeddingPage(): JSX.Element {
         />
         <meta
           property="og:image"
-          content="https://yongseongkim.github.io/img/wedding/cover.jpg"
+          content="https://hs.yongseongkimm.com/img/wedding/cover.jpg"
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="1600" />
         <meta property="og:image:alt" content="조현수 · 김용성" />
         <meta
           property="og:url"
-          content="https://yongseongkim.github.io/wedding/"
+          content="https://hs.yongseongkimm.com/wedding/"
         />
         <meta property="og:locale" content="ko_KR" />
 
@@ -75,7 +75,7 @@ export default function WeddingPage(): JSX.Element {
         />
         <meta
           name="twitter:image"
-          content="https://yongseongkim.github.io/img/wedding/cover.jpg"
+          content="https://hs.yongseongkimm.com/img/wedding/cover.jpg"
         />
 
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
